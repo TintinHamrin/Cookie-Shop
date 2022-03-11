@@ -22,8 +22,7 @@
   },
   "proxy": "http://localhost:3001",
   "scripts": {
-    "dev": "tsc backend/index.ts && nodemon backend/index.js",
-    "startdev": "(cd backend && npm run dev) && npm run start",
+    "dev": "ts-node index.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
