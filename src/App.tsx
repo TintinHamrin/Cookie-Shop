@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import './app.scss';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './Navbar';
+import Products from './Products';
 
 function App() {
-  // useEffect(() => {
-  //   fetch('/hej')
-  //     .then((response) => response.json())
-  //     .then((data) => setData(data.message))
-  //     .catch((error) => console.log(error));
-  // }, []);
-
-  const buttonHandler = () => {
-    console.log('inne');
-    fetch('/hej')
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  };
-
   return (
     <div className="App">
-      <p>heej mmm!! lala</p>
-      <button onClick={buttonHandler}>klicka</button>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/products" element={<Products />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
