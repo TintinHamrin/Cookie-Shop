@@ -1,14 +1,14 @@
 # TT's Cookie Shop
 
-### 🎯 Goals
+### ***🎯 Goals***
 
 Create a store and design an API to add to cart and other functions necessary for a web store application.
 
-### ⏳ Time spent / Deadline
+### ***⏳ Time spent / Deadline***
 
 4 weeks.
 
-### 💻 Tech used
+### ***💻 Tech used***
 
 * Typescript
 * React & Redux Toolkit
@@ -18,7 +18,7 @@ Create a store and design an API to add to cart and other functions necessary fo
 * Firebase
 * SCSS
 
-### 👨‍🎓 Learnings
+### ***👨‍🎓 Learnings***
 
 Got a deeper understanding of general programming patterns and developed my understanding of Typescript and how to use it on both the front- and backend.
 
