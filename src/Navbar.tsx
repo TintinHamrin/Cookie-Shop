@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartSliceActions, menuSliceActions, RootState } from './store/store';
 import { useState } from 'react';
 import DrawerElement from './DrawerElement';
+import Cart from './Cart';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -164,14 +165,12 @@ export default function Navbar() {
   );
 
   const openMenuHandler = () => {
-    console.log('test');
+    console.log('opening drawer');
     dispatch(menuSliceActions.toggleOpen(true));
-    // setOpenMenu(true);
-    console.log(DrawerIsOpen);
   };
 
   const openCartHandler = () => {
-    console.log('cart');
+    console.log('opening cart');
     dispatch(cartSliceActions.toggleOpen(true));
   };
 
@@ -210,14 +209,14 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
-              onClick={openCartHandler}
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge onClick={openCartHandler} badgeContent={17} color="error">
                 <ShoppingCartIcon />
               </Badge>
+              {cartIsOpen && <Cart />}
             </IconButton>
             <IconButton
               size="large"

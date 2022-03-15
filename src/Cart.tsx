@@ -28,6 +28,7 @@ export default function Cart() {
   // const handleClose = () => setOpen(false);
 
   const handleClose = () => {
+    console.log('closing cart');
     cartDispatch(cartSliceActions.toggleOpen(false));
   };
 
@@ -38,6 +39,8 @@ export default function Cart() {
         aria-describedby="transition-modal-description"
         open={cartIsOpen}
         onClose={handleClose}
+        onKeyDown={handleClose}
+        onBackdropClick={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
