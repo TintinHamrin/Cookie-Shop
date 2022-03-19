@@ -65,6 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [cartItemsQt, setCartItemsQt] = useState(0);
   const cartIsOpen = useSelector((state: RootState) => state.cart.isOpen);
   const DrawerIsOpen = useSelector((state: RootState) => state.menu.isOpen);
   const itemsInCart = useSelector((state: RootState) => state.cart.itemsInCart);
@@ -175,10 +176,14 @@ export default function Navbar() {
     dispatch(cartSliceActions.toggleOpen(true));
   };
 
-  // let items: 0;
-  // useEffect(() => {
-  //   items = itemsInCartQt;
-  // }, []);
+  useEffect(() => {
+    fetch('/getCartItemQt')
+      .then((res) => res.json())
+      .then((data) => setCartItemsQt(data));
+    dispatch(cartSliceActions.initialCartQt(cartItemsQt));
+    // console.log('fetching', cartItemsQt);
+    console.log('fetching', itemsInCart);
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

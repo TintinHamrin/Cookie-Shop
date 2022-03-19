@@ -6,7 +6,7 @@ const cartSlice = createSlice({
   initialState: {
     isOpen: false,
     itemsInCart: 0,
-    initialCartQt: 5,
+    // initialCartQt: 5,
   },
   reducers: {
     toggleOpen: (state, action) => {
@@ -16,7 +16,7 @@ const cartSlice = createSlice({
       state.itemsInCart++;
     },
     initialCartQt: (state, action) => {
-      state.initialCartQt = action.payload;
+      state.itemsInCart = action.payload;
     },
   },
 });
@@ -31,16 +31,29 @@ const menuSlice = createSlice({
     },
   },
 });
+const checkoutSlice = createSlice({
+  name: 'checkout',
+  initialState: {
+    isOpen: false,
+  },
+  reducers: {
+    toggleOpen: (state, action) => {
+      state.isOpen = action.payload;
+    },
+  },
+});
 
 // Slice actions
 const cartSliceActions = cartSlice.actions;
 const menuSliceActions = menuSlice.actions;
+const checkoutSliceActions = checkoutSlice.actions;
 
 //store
 const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
     menu: menuSlice.reducer,
+    checkout: checkoutSlice.reducer,
   },
 });
 
@@ -49,4 +62,4 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-export { cartSliceActions, menuSliceActions, store };
+export { cartSliceActions, menuSliceActions, checkoutSliceActions, store };

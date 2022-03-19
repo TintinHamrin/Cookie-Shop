@@ -9,7 +9,7 @@ export type Product = {
   name: string;
 };
 
-function Products() {
+function Products(props: any) {
   const [products, setProducts] = useState<Array<Product>>([]);
   const imgPath = '/assets/';
 

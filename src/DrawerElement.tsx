@@ -40,19 +40,6 @@ export default function DrawerElement() {
         onKeyDown={toggleDrawer}
       >
         <List>
-          {/* {['Products', 'About'].map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              onClick={(e:any) => {
-                itemHandler(index);
-              }}
-              to="/products"
-              component={Link}
-            >
-              <ListItemText primary={text} />
-            </ListItem> */}
-          {/* ))} */}
           <ListItem
             button
             key="products"

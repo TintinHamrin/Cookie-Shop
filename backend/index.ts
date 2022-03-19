@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const cookieParser = require('cookie-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 const { MongoClient } = require('mongodb');
 var url =
   'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2';
@@ -34,36 +36,17 @@ app.post('/postData', (req: any, res: any) => {
 app.post('/addToCart', async (req: any, res: any) => {
   const db = client.db('cookieShop');
   const carts = db.collection('carts');
-  const storedId = carts.find({ _id: req.body.id });
-  const doesCartAlreadyExist = await storedId.count();
-  // if (doesCartAlreadyExist === 0) {
   db.collection('carts').insertOne(req.body);
-  // } else {
-  //   const oldItemsCursor = carts.find({ _id: {} });
-  //   const oldItems = await oldItemsCursor.toArray();
-  //   db.carts.updateOne(
-  //     {
-  //       _id: req.body.id,
-  //     },
-  //     {
-  //       $set: { item: req.body.item },
-  //     }
-  //   );
-  // }
-  // const oldItemsCursor = await storedId.toArray();
-  // console.log(oldItemsCursor);
-  // console.log(doesCartAlreadyExist);
+  res.cookie('cookie', 'monster');
 });
 
 app.get('/getCartItemQt', async (req: any, res: any) => {
-  console.log('mmm');
   const db = client.db('cookieShop'); //why do i need to do this in every request??
   const collection = db.collection('carts');
   const cursor = collection.find({});
   try {
-    // const itemsQtArray = await cursor.toArray();
     const itemsQt = await cursor.count();
-    console.log(itemsQt);
+    console.log('getting cartQt from database', itemsQt);
     res.json(itemsQt);
   } catch (error) {
     console.log(error);
