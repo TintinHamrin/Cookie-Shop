@@ -11,6 +11,7 @@ export type Product = {
 
 function Products() {
   const [products, setProducts] = useState<Array<Product>>([]);
+  const imgPath = '/assets/';
 
   useEffect(() => {
     (async () => {
@@ -23,10 +24,8 @@ function Products() {
 
   return (
     <div className="products">
-      <h1>Products</h1>
-      <p>{products.length}</p>
       {products.map((product) => (
-        <ProductCard name={product.name} img={product.img} />
+        <ProductCard name={product.name} img={imgPath + product.img + '.jpg'} />
       ))}
     </div>
   );

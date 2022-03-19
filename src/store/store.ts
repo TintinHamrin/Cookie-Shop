@@ -5,10 +5,18 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     isOpen: false,
+    itemsInCart: 0,
+    initialCartQt: 5,
   },
   reducers: {
     toggleOpen: (state, action) => {
       state.isOpen = action.payload;
+    },
+    updateCart: (state) => {
+      state.itemsInCart++;
+    },
+    initialCartQt: (state, action) => {
+      state.initialCartQt = action.payload;
     },
   },
 });

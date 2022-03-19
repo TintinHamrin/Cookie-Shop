@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: space-around;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  background-color: antiquewhite;
+  width: fit-content;
+}

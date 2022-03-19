@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartSliceActions, menuSliceActions, RootState } from './store/store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DrawerElement from './DrawerElement';
 import Cart from './Cart';
 
@@ -67,8 +67,8 @@ export default function Navbar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const cartIsOpen = useSelector((state: RootState) => state.cart.isOpen);
   const DrawerIsOpen = useSelector((state: RootState) => state.menu.isOpen);
+  const itemsInCart = useSelector((state: RootState) => state.cart.itemsInCart);
   const dispatch = useDispatch();
-  // const [openMenu, setOpenMenu] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -171,8 +171,14 @@ export default function Navbar() {
 
   const openCartHandler = () => {
     console.log('opening cart');
+    console.log(itemsInCart);
     dispatch(cartSliceActions.toggleOpen(true));
   };
+
+  // let items: 0;
+  // useEffect(() => {
+  //   items = itemsInCartQt;
+  // }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -213,7 +219,11 @@ export default function Navbar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge onClick={openCartHandler} badgeContent={17} color="error">
+              <Badge
+                onClick={openCartHandler}
+                badgeContent={itemsInCart}
+                color="error"
+              >
                 <ShoppingCartIcon />
               </Badge>
               {cartIsOpen && <Cart />}
