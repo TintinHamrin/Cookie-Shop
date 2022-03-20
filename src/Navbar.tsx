@@ -187,7 +187,14 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        className="navBar"
+        position="static"
+        style={{
+          backgroundColor: 'rgba(238, 178, 181, 0.8)',
+          color: 'black',
+        }}
+      >
         <Toolbar>
           <IconButton
             onClick={openMenuHandler}
@@ -206,7 +213,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            TT's Cookie Shop
+            Your Favourite Cookie Shop
           </Typography>
           <Search>
             <SearchIconWrapper>

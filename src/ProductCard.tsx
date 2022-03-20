@@ -35,7 +35,13 @@ export default function ProductCard(props: Product) {
   };
 
   return (
-    <Card className="card">
+    <Card
+      style={{
+        backgroundColor: 'rgba(238, 178, 181, 0.8)',
+        color: 'black',
+      }}
+      className="card"
+    >
       <CardMedia
         component="img"
         height="194"
@@ -43,7 +49,7 @@ export default function ProductCard(props: Product) {
         alt="Paella dish"
       />
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {props.name}
         </Typography>
       </CardContent>

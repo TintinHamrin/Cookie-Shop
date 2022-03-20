@@ -33,7 +33,7 @@ export default function About() {
 
   return (
     <div className="container">
-      <Box
+      {/* <Box
         className="box"
         sx={{
           // display: 'flex',
@@ -45,23 +45,46 @@ export default function About() {
             height: 128,
           },
         }}
+      > */}
+      <Paper
+        elevation={6}
+        style={{
+          backgroundColor: 'rgba(238, 178, 181, 0.8)',
+          color: 'black',
+          maxWidth: '50%',
+        }}
       >
-        <Paper elevation={3}>
-          <CardContent>
-            <Typography>About TT's cookie shop!</Typography>
-          </CardContent>
-        </Paper>
-      </Box>
+        <CardContent>
+          <Typography variant="h5">About the cookie shop!</Typography>
+          <Typography variant="body1">
+            For the love of the cookie we are here for you. Made with love,
+            butter, egg and other divine ingredients out cakes has been voted
+            the best in the county several times. Come by for a cup of joe and a
+            slice of love.
+          </Typography>
+        </CardContent>
+      </Paper>
+      {/* </Box> */}
 
       <Box
         className="box"
-        sx={{
+        style={{
+          backgroundColor: 'rgba(238, 178, 181, 0.8)',
+          color: 'black',
+          width: '50%',
+          margin: '2rem',
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
         }}
+        // sx={{
+        //   display: 'flex',
+        //   flexWrap: 'wrap',
+        //   justifyContent: 'center',
+        // }}
       >
         <TextField
+          style={{ width: '75%', color: 'black' }}
           id="outlined-basic textInput"
           label="Missing a cookie? Tell us!"
           variant="filled"

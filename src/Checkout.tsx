@@ -26,20 +26,20 @@ function Checkout() {
   };
 
   return (
-    // <Fade in={checkoutIsOpen}>
-    <Box sx={{ style: { style } }}>
-      <Typography id="transition-modal-title" variant="h6" component="h2">
-        insert payment details
-      </Typography>
-      <Typography id="transition-modal-title" variant="h6" component="h2">
-        insert payment details
-      </Typography>
-      <ButtonElement>Keep shopping</ButtonElement>
-      <Button variant="outlined" onClick={openPaymentDetailsHandler}>
-        Pay
-      </Button>
-    </Box>
-    // </Fade>
+    <Fade in={checkoutIsOpen}>
+      <Box sx={{ style: { style } }}>
+        <Typography id="transition-modal-title" variant="h6" component="h2">
+          insert payment details
+        </Typography>
+        <Typography id="transition-modal-title" variant="h6" component="h2">
+          insert payment details
+        </Typography>
+        <ButtonElement>Keep shopping</ButtonElement>
+        <Button variant="outlined" onClick={openPaymentDetailsHandler}>
+          Pay
+        </Button>
+      </Box>
+    </Fade>
   );
 }
 

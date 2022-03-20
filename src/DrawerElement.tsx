@@ -1,11 +1,8 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ButtonElement from './UI/ButtonElement';
 import { useDispatch, useSelector } from 'react-redux';
 import { menuSliceActions, RootState } from './store/store';
 import { useState } from 'react';
@@ -35,6 +32,7 @@ export default function DrawerElement() {
     <Drawer open={menuSelector} onClose={toggleDrawer}>
       <Box
         //   sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+        style={{ backgroundColor: 'rgba(238, 178, 181, 0.5)', height: 'fit' }}
         role="presentation"
         onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
@@ -63,8 +61,6 @@ export default function DrawerElement() {
             <ListItemText primary="About" />
           </ListItem>
         </List>
-        <Divider />
-        <ButtonElement onClick={toggleDrawer}>Close</ButtonElement>
       </Box>
     </Drawer>
   );

@@ -41,7 +41,7 @@ export default function Cart() {
   const openCheckoutHandler = () => {
     console.log('opening checkout');
     dispatch(checkoutSliceActions.toggleOpen(true));
-    dispatch(cartSliceActions.toggleOpen(false));
+    // dispatch(cartSliceActions.toggleOpen(false));
   };
 
   return (
