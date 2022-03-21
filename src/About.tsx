@@ -8,6 +8,7 @@ import './About.scss';
 
 export default function About() {
   const [text, setText] = useState('');
+  const [feedbackText, setFeedbackText] = useState('');
 
   //   const textInputField = document.querySelector('#textInput'!);
   //   const textInput = textInputField!.value;
@@ -18,8 +19,7 @@ export default function About() {
   };
 
   const sendDataToDb = () => {
-    console.log('sending to db');
-    fetch('/postData', {
+    fetch('/cookie-suggestions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,33 +28,24 @@ export default function About() {
       body: JSON.stringify({ cookieIWantTooSee: text }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => setFeedbackText(data));
+
+    // fetch('/cookie-delete')
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
   };
 
+  // TODO read up on difference between style and sx prop.
   return (
     <div className="container">
-      {/* <Box
-        className="box"
-        sx={{
-          // display: 'flex',
-          // flexWrap: 'wrap',
-          // justifyContent: 'center',
-          '& > :not(style)': {
-            m: 1,
-            width: 128,
-            height: 128,
-          },
-        }}
-      > */}
       <Paper
         elevation={6}
+        color="primary"
         style={{
-          backgroundColor: 'rgba(238, 178, 181, 0.8)',
-          color: 'black',
           maxWidth: '50%',
         }}
       >
-        <CardContent>
+        <CardContent sx={{ backgroundColor: 'primary.main' }}>
           <Typography variant="h5">About the cookie shop!</Typography>
           <Typography variant="body1">
             For the love of the cookie we are here for you. Made with love,
@@ -64,27 +55,27 @@ export default function About() {
           </Typography>
         </CardContent>
       </Paper>
-      {/* </Box> */}
 
       <Box
+        color="secondary.main"
         className="box"
         style={{
-          backgroundColor: 'rgba(238, 178, 181, 0.8)',
-          color: 'black',
           width: '50%',
           margin: '2rem',
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
         }}
-        // sx={{
-        //   display: 'flex',
-        //   flexWrap: 'wrap',
-        //   justifyContent: 'center',
-        // }}
+        sx={{
+          backgroundColor: 'primary.main',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
       >
         <TextField
-          style={{ width: '75%', color: 'black' }}
+          sx={{ color: 'secondary.main' }}
+          style={{ width: '75%' }}
           id="outlined-basic textInput"
           label="Missing a cookie? Tell us!"
           variant="filled"
@@ -92,7 +83,10 @@ export default function About() {
             textInputHandler(e);
           }}
         />
-        <Button onClick={sendDataToDb}>Click to add</Button>
+        <Button sx={{ color: 'secondary.main' }} onClick={sendDataToDb}>
+          Click to add
+        </Button>
+        {feedbackText}
       </Box>
     </div>
   );

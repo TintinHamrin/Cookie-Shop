@@ -1,7 +1,7 @@
-import { Box, Button, Fade, Modal, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Fade, Modal, Typography } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkoutSliceActions, RootState } from './store/store';
 import ButtonElement from './UI/ButtonElement';
 
 const style = {
@@ -17,6 +17,7 @@ const style = {
 };
 
 function Checkout() {
+  const dispatch = useDispatch();
   const checkoutIsOpen = useSelector(
     (state: RootState) => state.checkout.isOpen
   );
@@ -25,12 +26,26 @@ function Checkout() {
     console.log('opening payment details');
   };
 
+  const handleClose = () => {
+    console.log('closing cart');
+    dispatch(checkoutSliceActions.toggleOpen(false));
+  };
+
   return (
-    <Fade in={checkoutIsOpen}>
-      <Box sx={{ style: { style } }}>
-        <Typography id="transition-modal-title" variant="h6" component="h2">
-          insert payment details
-        </Typography>
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      open={checkoutIsOpen}
+      onClose={handleClose}
+      onKeyDown={handleClose}
+      onBackdropClick={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Box sx={style}>
         <Typography id="transition-modal-title" variant="h6" component="h2">
           insert payment details
         </Typography>
@@ -39,7 +54,7 @@ function Checkout() {
           Pay
         </Button>
       </Box>
-    </Fade>
+    </Modal>
   );
 }
 

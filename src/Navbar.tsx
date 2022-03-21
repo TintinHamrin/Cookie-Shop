@@ -177,7 +177,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    fetch('/getCartItemQt')
+    fetch('/cart-item')
       .then((res) => res.json())
       .then((data) => setCartItemsQt(data));
     dispatch(cartSliceActions.initialCartQt(cartItemsQt));
@@ -188,19 +188,20 @@ export default function Navbar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
+        color="primary"
         className="navBar"
         position="static"
-        style={{
-          backgroundColor: 'rgba(238, 178, 181, 0.8)',
-          color: 'black',
-        }}
+        // style={{
+        //   backgroundColor: 'rgba(238, 178, 181, 0.8)',
+        //   color: 'black',
+        // }}
       >
         <Toolbar>
           <IconButton
+            color="secondary"
             onClick={openMenuHandler}
             size="large"
             edge="start"
-            color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
@@ -208,6 +209,7 @@ export default function Navbar() {
           </IconButton>
           {DrawerIsOpen && <DrawerElement />}
           <Typography
+            color="secondary"
             variant="h6"
             noWrap
             component="div"
@@ -227,16 +229,16 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
+              color="secondary"
               size="large"
               aria-label="show 17 new notifications"
-              color="inherit"
             >
               <Badge
+                color="secondary"
                 onClick={openCartHandler}
                 badgeContent={itemsInCart}
-                color="error"
               >
-                <ShoppingCartIcon />
+                <ShoppingCartIcon color="secondary" />
               </Badge>
               {cartIsOpen && <Cart />}
             </IconButton>
@@ -247,7 +249,7 @@ export default function Navbar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              color="secondary"
             >
               <AccountCircle />
             </IconButton>
@@ -259,7 +261,7 @@ export default function Navbar() {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="inherit"
+              color="secondary"
             >
               <MoreIcon />
             </IconButton>

@@ -7,6 +7,8 @@ export type Product = {
   // id: number;
   img: string;
   name: string;
+  price: number;
+  description: string;
 };
 
 function Products(props: any) {
@@ -25,7 +27,12 @@ function Products(props: any) {
   return (
     <div className="products">
       {products.map((product) => (
-        <ProductCard name={product.name} img={imgPath + product.img + '.jpg'} />
+        <ProductCard
+          name={product.name}
+          price={product.price}
+          img={imgPath + product.img + '.jpg'}
+          description={product.description}
+        />
       ))}
     </div>
   );

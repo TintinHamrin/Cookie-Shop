@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ButtonElement from './UI/ButtonElement';
 import { Button, Dialog } from '@mui/material';
 import Checkout from './Checkout';
+import { Link } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -41,7 +42,7 @@ export default function Cart() {
   const openCheckoutHandler = () => {
     console.log('opening checkout');
     dispatch(checkoutSliceActions.toggleOpen(true));
-    // dispatch(cartSliceActions.toggleOpen(false));
+    dispatch(cartSliceActions.toggleOpen(false));
   };
 
   return (
@@ -59,30 +60,28 @@ export default function Cart() {
           timeout: 500,
         }}
       >
-        {/* <Fade in={cartIsOpen || checkoutIsOpen}> */}
-        <Box sx={style}>
-          {cartIsOpen && (
-            <>
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-              >
-                Your cart
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Items
-              </Typography>
-              <ButtonElement>Keep shopping</ButtonElement>
-              <Button variant="outlined" onClick={openCheckoutHandler}>
+        <Fade in={cartIsOpen}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6" component="h2">
+              Your cart
+            </Typography>
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              Items
+            </Typography>
+            <ButtonElement>Keep shopping</ButtonElement>
+            {/* <Button variant="outlined" onClick={openCheckoutHandler}>
                 Go to payment
-              </Button>
-            </>
-          )}
-          {checkoutIsOpen && <Checkout />}
-        </Box>
-
-        {/* </Fade> */}
+              </Button> */}
+            <Button
+              variant="outlined"
+              to="/checkout"
+              component={Link}
+              onClick={openCheckoutHandler}
+            >
+              Go to payment
+            </Button>
+          </Box>
+        </Fade>
       </Modal>
     </div>
   );

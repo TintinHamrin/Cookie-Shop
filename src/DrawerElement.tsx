@@ -31,13 +31,12 @@ export default function DrawerElement() {
   return (
     <Drawer open={menuSelector} onClose={toggleDrawer}>
       <Box
-        //   sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-        style={{ backgroundColor: 'rgba(238, 178, 181, 0.5)', height: 'fit' }}
+        // style={{ backgroundColor: 'rgba(238, 178, 181, 0.5)', height: 'fit' }}
         role="presentation"
         onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
       >
-        <List>
+        <List color="secondary">
           <ListItem
             button
             key="products"
