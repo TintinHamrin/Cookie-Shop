@@ -14,6 +14,7 @@ var url =
 
 var client: any;
 var db: any;
+var sessId: string;
 
 // FIXME type notation
 // connect client and db
@@ -75,17 +76,20 @@ app.post('/cookie-suggestions', (req, res) => {
 // FIXME set cookie + validate req.body
 // add product to db + setting a cookie
 app.post('/cart-items', async (req, res) => {
-  // res.cookie('session_id', 123456);
-  res.clearCookie('session_id');
-  try {
-    const carts = db.collection('carts');
-    db.collection('carts').insertOne(req.body);
-    const cursor = await carts.find({});
-    const cartItemsArray = await cursor.toArray();
-    res.json({ response: cartItemsArray });
-  } catch (error) {
-    res.status(500).json('sorry, something went wrong!');
+  const cartId = req.body.cartId;
+  const collection = db.collection('carts');
+  const query = { cartId: cartId };
+  const cartIdCursor = collection.find(query);
+  const doesCartIdExist = await cartIdCursor.toArray(); // TODO rename
+
+  if (doesCartIdExist.length === 0) {
+    db.collection('carts').insertOne(req.body); //TODO can i change this to var cartsCollection?
+  } else {
+    db.collection('carts').updateOne(query);
   }
+  const cursor = await collection.find({});
+  const cartItemsArray = await cursor.toArray();
+  res.json({ cart: cartItemsArray });
 });
 
 // get saved products from cart/db
@@ -101,28 +105,40 @@ app.get('/cart-items', async (req, res) => {
   }
 });
 
+// checks if the sessId already exists
+// app.get('/cartId', async (req, res) => {
+//   const cartId = req.body.cartId;
+//   const collection = db.collection('carts');
+//   const cursor = collection.find({ cartId: cartId });
+//   const doesCartIdExist = await cursor.toArray();
+//   console.log('array:', doesCartIdExist); //SENDING BACK ARRAY OK
+//   res.json(doesCartIdExist);
+// });
+
 // FIXME type notation
 //middleware to be used when i need to validate the cookie
 const validateCookie = (req: any, res: any, next: any) => {
   const { cookies } = req;
   if ('session' in cookies) {
     console.log('session cookie exists!');
-    if (cookies.session === '1345') {
+    if (cookies.session === sessId) {
       console.log('you can enter');
       next();
     } else res.status(403).send('no cookie found!');
   } else res.status(403).send('no cookie found!');
 };
 
+// FIXME change name of endpoint
 app.get('/cookie', (req, res) => {
-  res.cookie('session', '1345');
-  res.send('you are cookified!');
+  if (!req.cookies) {
+    const mathRand = Math.random().toString();
+    sessId = mathRand;
+    res.cookie('session', sessId);
+    res.send('you are cookified!');
+  } else {
+    res.send('you are already authenticated!');
+  }
 });
-
-// app.get('/get-cookie', (req, res) => {
-//   console.log(req.cookies);
-//   res.send(req.cookies);
-// });
 
 app.get('/cookie-delete', (req, res) => {
   res.clearCookie('session');
@@ -130,7 +146,8 @@ app.get('/cookie-delete', (req, res) => {
 });
 
 app.get('/cookie-validate', validateCookie, (req, res) => {
-  res.json('cookie is valid!');
+  const cookies = req.cookies;
+  res.json({ cookie: cookies });
 });
 
 // start listening on port 3001
