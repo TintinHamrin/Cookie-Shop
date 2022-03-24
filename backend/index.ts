@@ -50,12 +50,16 @@ app.post('/cart-items', async (req, res) => {
 
 
 app.get('/cart-items', async (req, res) => {
-  const collection = db.collection('carts');
-  const cursor = collection.find({});
+  const cartId = req.cookies.session;
+  console.log('cartId:', cartId)
+  const collection = db.collection('Carts');
+  const cursor = await collection.find({}); // TODO maybe not async?
+  const fullCartData = await cursor.toArray();
+  const itemsInCartQt = await cursor.count();
   try {
-    const itemsQt = await cursor.count();
-    console.log('getting cartQt from database', itemsQt);
-    res.json(itemsQt);
+    console.log(fullCartData)
+    console.log(itemsInCartQt)
+    res.json({items: fullCartData});
   } catch (error) {
     console.log(error);
   }

@@ -17,22 +17,7 @@ export default function ProductCard(props: Product) {
   const [cartIdArray, setCartIdArray] = useState('');
   const dispatch = useDispatch();
 
-  //make a function to see if document with sessId exists
-  // const seeIfCartIdExistsInDb = () => {
-  //   fetch('/cartId')
-  //     .then((res) => res.json())
-  //     .then((data) => setCartIdArray(data));
-  //   console.log(cartIdArray); //why is this 0 on every first item click?
-  // };
-
-  // TODO Q: im returning an array fr backend ok, but on the first click on each product it doesnt get correct arraylenght(gets 0 wrongly) and hence will create a new cart even when the cartId already exists in DB
   const addToCartHandler = async (product: any) => {
-    // await seeIfCartIdExistsInDb();
-    // console.log('arraylenght:', cartIdArray.length);
-    // const cookie = document.cookie.split('=')[1];
-    // console.log(cookie);
-    // if (cartIdArray!.length === 0) {
-    //   console.log('wrong!');
     fetch('/cart-items', {
       method: 'POST',
       headers: {
@@ -40,13 +25,12 @@ export default function ProductCard(props: Product) {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        item: product.name,
-        _id: Math.random(),
+        itemId: product._id,
         price: product.price
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data)); //returning an array of obj
+      .then((data) => console.log(data)); 
 
     dispatch(cartSliceActions.updateCart());
   };

@@ -24,8 +24,16 @@ export const theme = createTheme({
 });
 
 function App() {
+//TODO connect to store, update counter on each first render, 
+//then upgrade to update also on each added item
+
+
   useEffect(() => {
     fetch('/cartId')  //TODO rename to /cart-id/create
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+
+      fetch('/cart-items')   
       .then((res) => res.json())
       .then((data) => console.log(data));
   });
@@ -41,6 +49,12 @@ function App() {
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
+
+  // const updateCartHandler = () => {
+  //   fetch('/cart-items')   
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // };
 
   return (
     <ThemeProvider theme={theme}>

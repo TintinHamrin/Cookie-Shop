@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import ProductCard from './ProductCard';
-import './Products.scss';
+import React, { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
+import "./Products.scss";
 
 export type Product = {
   //make a class for product?
   // id: number;
   img: string;
+  //   productId: number;
+  productId: number;
   name: string;
   price: number;
   description: string;
@@ -13,11 +15,11 @@ export type Product = {
 
 function Products(props: any) {
   const [products, setProducts] = useState<Array<Product>>([]);
-  const imgPath = '/assets/';
+  const imgPath = "/assets/";
 
   useEffect(() => {
     (async () => {
-      const data = await fetch('/products');
+      const data = await fetch("/products");
       const fetchedProducts = await data.json();
       setProducts(fetchedProducts);
       console.log(fetchedProducts);
@@ -28,9 +30,11 @@ function Products(props: any) {
     <div className="products">
       {products.map((product) => (
         <ProductCard
+          // productId={product._id}
+          productId={product.productId}
           name={product.name}
           price={product.price}
-          img={imgPath + product.img + '.jpg'}
+          img={imgPath + product.img + ".jpg"}
           description={product.description}
         />
       ))}
