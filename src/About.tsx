@@ -29,10 +29,6 @@ export default function About() {
     })
       .then((res) => res.json())
       .then((data) => setFeedbackText(data));
-
-    // fetch('/cookie-delete')
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
   };
 
   // TODO read up on difference between style and sx prop.

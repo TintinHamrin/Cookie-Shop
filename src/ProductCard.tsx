@@ -29,8 +29,8 @@ export default function ProductCard(props: Product) {
   const addToCartHandler = async (product: any) => {
     // await seeIfCartIdExistsInDb();
     // console.log('arraylenght:', cartIdArray.length);
-    const cookie = document.cookie.split('=')[1];
-    console.log(cookie);
+    // const cookie = document.cookie.split('=')[1];
+    // console.log(cookie);
     // if (cartIdArray!.length === 0) {
     //   console.log('wrong!');
     fetch('/cart-items', {
@@ -42,7 +42,7 @@ export default function ProductCard(props: Product) {
       body: JSON.stringify({
         item: product.name,
         _id: Math.random(),
-        cartId: cookie,
+        price: product.price
       }),
     })
       .then((res) => res.json())

@@ -25,19 +25,19 @@ export const theme = createTheme({
 
 function App() {
   useEffect(() => {
-    fetch('/cookie')
+    fetch('/cartId')  //TODO rename to /cart-id/create
       .then((res) => res.json())
       .then((data) => console.log(data));
   });
 
   const clearCookieHandler = () => {
-    fetch('/cookie-delete')
+    fetch('/cartId-delete')   //TODO rename to /cart-id/delete ??
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
 
   const validateCookieHandler = () => {
-    fetch('/cookie-validate')
+    fetch('/cartId-validate')   //TODO rename to /cart-id/validate ??
       .then((res) => res.json())
       .then((data) => console.log(data));
   };

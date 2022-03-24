@@ -2,32 +2,31 @@ import express from 'express';
 import bodyParser from 'body-parser';
 const app = express();
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const helmet = require('helmet');
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(helmet());
 const { MongoClient } = require('mongodb');
 var url =
   'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2';
 
-var client: any;
-var db: any;
-var sessId: string;
+var client: any; // TODO type notate
+var db: any;  // TODO type notate
+var cartId: any; // TODO type notatestring;
 
 // FIXME type notation
 // connect client and db
 MongoClient.connect(url, function (err: any, c: any) {
   client = c;
-  db = client.db('cookieShop');
+  db = client.db('CookieShop');
   if (err) throw err;
   console.log('Database created!');
 });
 
 // get products to products page
 app.get('/products', async (req, res) => {
-  var cursor = db.collection('products').find({});
+  var cursor = db.collection('Products').find({});
   const allValues = await cursor.toArray();
   res.json(allValues);
 });
@@ -39,6 +38,73 @@ app.post('/cookie-suggestions', (req, res) => {
   db.collection('CustomerIdeas').insertOne(req.body);
   res.json('Thanks for your suggestion!');
 });
+
+// FIXME set cookie + validate req.body
+// TODO Q: Why dont i get the type notation??
+app.post('/cart-items', async (req, res) => {
+  const cartId = req.cookies.session;
+  const collection = db.collection('Carts');  // TODO Q: bad name as im now using simple date types db design?
+  db.collection('Carts').insertOne({...req.body, cartId: cartId}); //TODO can i change this to var cartsCollection?
+  res.json({cookie: cartId});
+});
+
+
+app.get('/cart-items', async (req, res) => {
+  const collection = db.collection('carts');
+  const cursor = collection.find({});
+  try {
+    const itemsQt = await cursor.count();
+    console.log('getting cartQt from database', itemsQt);
+    res.json(itemsQt);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+// FIXME type notation
+const validateCookie = (req: any, res: any, next: any) => {
+  const cartId = req.cookies;
+  if ('session' in cartId) {
+    console.log('session cookie exists!');
+    // if (cartId.session === cartId) {   // TODO type notate)
+    //   console.log('you can enter');
+    //   next();
+    // } else res.status(403).send('no cookie found!');
+  } else res.status(403).send('no cookie found!');
+  next()
+};
+
+// FIXME change name of endpoint
+app.get('/cartId', (req, res) => {
+  if (!req.cookies) {
+    const mathRand = Math.random().toString();
+    cartId = mathRand; // TODO type notate = mathRand;
+    res.cookie('session', cartId) // TODO type notate);
+    res.send('you are cookified!');
+  } else {
+    res.send('you are already authenticated!');
+  }
+});
+
+app.get('/cartId-delete', (req, res) => {
+  res.clearCookie('session');
+  res.json('cookie is gone!');
+});
+
+app.get('/cartId-validate', validateCookie, (req, res) => {
+  const cartId = req.cookies;
+  res.json({ cookie: cartId });
+});
+
+// start listening on port 3001
+app.listen(3001, () => {
+  console.log('listening on 3001!');
+});
+
+
+
+
 
 // TODO CRUD operations
 // FIXME database normalization: remove product name / price from cart (use product_id)
@@ -72,85 +138,3 @@ app.post('/cookie-suggestions', (req, res) => {
 // app.get('cart-items')
 // app.delete ('cart-items/:id)
 // app.update ('cart-items/:id) - count
-
-// FIXME set cookie + validate req.body
-// add product to db + setting a cookie
-app.post('/cart-items', async (req, res) => {
-  const cartId = req.body.cartId;
-  const collection = db.collection('carts');
-  const query = { cartId: cartId };
-  const cartIdCursor = collection.find(query);
-  const doesCartIdExist = await cartIdCursor.toArray(); // TODO rename
-
-  if (doesCartIdExist.length === 0) {
-    db.collection('carts').insertOne(req.body); //TODO can i change this to var cartsCollection?
-  } else {
-    db.collection('carts').updateOne(query);
-  }
-  const cursor = await collection.find({});
-  const cartItemsArray = await cursor.toArray();
-  res.json({ cart: cartItemsArray });
-});
-
-// get saved products from cart/db
-app.get('/cart-items', async (req, res) => {
-  const collection = db.collection('carts');
-  const cursor = collection.find({});
-  try {
-    const itemsQt = await cursor.count();
-    console.log('getting cartQt from database', itemsQt);
-    res.json(itemsQt);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-// checks if the sessId already exists
-// app.get('/cartId', async (req, res) => {
-//   const cartId = req.body.cartId;
-//   const collection = db.collection('carts');
-//   const cursor = collection.find({ cartId: cartId });
-//   const doesCartIdExist = await cursor.toArray();
-//   console.log('array:', doesCartIdExist); //SENDING BACK ARRAY OK
-//   res.json(doesCartIdExist);
-// });
-
-// FIXME type notation
-//middleware to be used when i need to validate the cookie
-const validateCookie = (req: any, res: any, next: any) => {
-  const { cookies } = req;
-  if ('session' in cookies) {
-    console.log('session cookie exists!');
-    if (cookies.session === sessId) {
-      console.log('you can enter');
-      next();
-    } else res.status(403).send('no cookie found!');
-  } else res.status(403).send('no cookie found!');
-};
-
-// FIXME change name of endpoint
-app.get('/cookie', (req, res) => {
-  if (!req.cookies) {
-    const mathRand = Math.random().toString();
-    sessId = mathRand;
-    res.cookie('session', sessId);
-    res.send('you are cookified!');
-  } else {
-    res.send('you are already authenticated!');
-  }
-});
-
-app.get('/cookie-delete', (req, res) => {
-  res.clearCookie('session');
-  res.json('cookie is gone!');
-});
-
-app.get('/cookie-validate', validateCookie, (req, res) => {
-  const cookies = req.cookies;
-  res.json({ cookie: cookies });
-});
-
-// start listening on port 3001
-app.listen(3001, () => {
-  console.log('listening on 3001!');
-});
