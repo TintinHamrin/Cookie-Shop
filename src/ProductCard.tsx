@@ -14,7 +14,7 @@ import { theme } from './App';
 import { useState } from 'react';
 
 export default function ProductCard(props: Product) {
-  const [cartIdArray, setCartIdArray] = useState('');
+
   const dispatch = useDispatch();
 
   const addToCartHandler = async (product: any) => {

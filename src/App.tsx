@@ -7,6 +7,9 @@ import Cart from './Cart';
 import About from './About';
 import Checkout from './Checkout';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './store/store';
+import { cartSliceActions } from './store/store'
 
 //TODO ask Alex if this is bad practise to have in this folder
 export const theme = createTheme({
@@ -24,24 +27,26 @@ export const theme = createTheme({
 });
 
 function App() {
-//TODO connect to store, update counter on each first render, 
-//then upgrade to update also on each added item
-
+ const dispatch = useDispatch()
 
   useEffect(() => {
     fetch('/cartId')  //TODO rename to /cart-id/create
       .then((res) => res.json())
       .then((data) => console.log(data));
+  },[]);
 
+  useEffect(() => {
       fetch('/cart-items')   
       .then((res) => res.json())
-      .then((data) => console.log(data));
-  });
+      .then((data) => dispatch(cartSliceActions.initialCartQt(data)));      
+  }, []);
+
+  //FIXME 
 
   const clearCookieHandler = () => {
     fetch('/cartId-delete')   //TODO rename to /cart-id/delete ??
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data)); // 
   };
 
   const validateCookieHandler = () => {
@@ -56,6 +61,8 @@ function App() {
   //     .then((data) => console.log(data));
   // };
 
+
+  //TODO pass down the cartItemsState to prod.card
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -64,7 +71,7 @@ function App() {
           <button onClick={clearCookieHandler}>clear cookie</button>
           <button onClick={validateCookieHandler}>validate cookie</button>
           <Routes>
-            <Route path="/products" element={<Products />}></Route>
+            <Route path="/products" element={<Products />}></Route>  
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/about" element={<About />}></Route>
             <Route path="/checkout" element={<Checkout />}></Route>

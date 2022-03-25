@@ -16,7 +16,6 @@ var db: any;  // TODO type notate
 var cartId: any; // TODO type notatestring;
 
 // FIXME type notation
-// connect client and db
 MongoClient.connect(url, function (err: any, c: any) {
   client = c;
   db = client.db('CookieShop');
@@ -24,7 +23,6 @@ MongoClient.connect(url, function (err: any, c: any) {
   console.log('Database created!');
 });
 
-// get products to products page
 app.get('/products', async (req, res) => {
   var cursor = db.collection('Products').find({});
   const allValues = await cursor.toArray();
@@ -32,9 +30,7 @@ app.get('/products', async (req, res) => {
 });
 
 // TODO validate user input before insert
-//  post cookie suggestion from users to db.
 app.post('/cookie-suggestions', (req, res) => {
-  console.log(req.body);
   db.collection('CustomerIdeas').insertOne(req.body);
   res.json('Thanks for your suggestion!');
 });
@@ -45,46 +41,37 @@ app.post('/cart-items', async (req, res) => {
   const cartId = req.cookies.session;
   const collection = db.collection('Carts');  // TODO Q: bad name as im now using simple date types db design?
   db.collection('Carts').insertOne({...req.body, cartId: cartId}); //TODO can i change this to var cartsCollection?
-  res.json({cookie: cartId});
+  res.json({cookie: cartId});  //TODO i should send back full cart details here?
 });
 
 
 app.get('/cart-items', async (req, res) => {
   const cartId = req.cookies.session;
-  console.log('cartId:', cartId)
   const collection = db.collection('Carts');
-  const cursor = await collection.find({}); // TODO maybe not async?
+  const cursor = await collection.find({"cartId": cartId}); // TODO maybe not async?
   const fullCartData = await cursor.toArray();
   const itemsInCartQt = await cursor.count();
   try {
-    console.log(fullCartData)
-    console.log(itemsInCartQt)
-    res.json({items: fullCartData});
+    res.json(itemsInCartQt);  // TODO now sending back only qt, better to ley frontend have it all yeah? 
   } catch (error) {
     console.log(error);
   }
 });
 
-
 // FIXME type notation
 const validateCookie = (req: any, res: any, next: any) => {
   const cartId = req.cookies;
   if ('session' in cartId) {
-    console.log('session cookie exists!');
-    // if (cartId.session === cartId) {   // TODO type notate)
-    //   console.log('you can enter');
-    //   next();
-    // } else res.status(403).send('no cookie found!');
+    console.log('session cookie exists!'); //FIXME also need to validate the cookie? 
   } else res.status(403).send('no cookie found!');
   next()
 };
 
 // FIXME change name of endpoint
 app.get('/cartId', (req, res) => {
-  if (!req.cookies) {
-    const mathRand = Math.random().toString();
-    cartId = mathRand; // TODO type notate = mathRand;
-    res.cookie('session', cartId) // TODO type notate);
+  if (!req.cookies.session) {
+    cartId = Math.random().toString();
+    res.cookie('session', cartId) // TODO type notate
     res.send('you are cookified!');
   } else {
     res.send('you are already authenticated!');
