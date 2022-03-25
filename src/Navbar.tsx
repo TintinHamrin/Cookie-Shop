@@ -171,8 +171,6 @@ export default function Navbar(props:any) { //TODO type notation
   };
 
   const openCartHandler = () => {
-    console.log('opening cart');
-    console.log(itemsInCart);
     dispatch(cartSliceActions.toggleOpen(true));
   };
 
@@ -181,7 +179,6 @@ export default function Navbar(props:any) { //TODO type notation
       .then((res) => res.json())
       .then((data) => setCartItemsQt(data));
     dispatch(cartSliceActions.initialCartQt(cartItemsQt));
-    // console.log('fetching', cartItemsQt);
     console.log('fetching', itemsInCart);
   }, []);
 

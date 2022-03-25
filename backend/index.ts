@@ -35,6 +35,11 @@ app.post('/cookie-suggestions', (req, res) => {
   res.json('Thanks for your suggestion!');
 });
 
+// app.get('/cart-fullDetails', async (req, res) => {  // TODO no need for a separate function   
+//                                               // when i can use what i alreadu have right?
+
+// }
+
 // FIXME set cookie + validate req.body
 // TODO Q: Why dont i get the type notation??
 app.post('/cart-items', async (req, res) => {
@@ -44,15 +49,27 @@ app.post('/cart-items', async (req, res) => {
   res.json({cookie: cartId});  //TODO i should send back full cart details here?
 });
 
+app.get('/cart-items-detailed', async (req, res) => {
+  const cartId = req.cookies.session;
+  const collection = db.collection('Carts');
+  const cursor = await collection.find({"cartId": cartId}); // TODO maybe not async?
+  const fullCartData = await cursor.toArray();
+  console.log(fullCartData)
+  try {
+    res.json(fullCartData);  // FIXME REPEATING MYSELF!!!! Make on request endpoint for this and below.  
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-app.get('/cart-items', async (req, res) => {
+app.get('/cart-items-qt', async (req, res) => {
   const cartId = req.cookies.session;
   const collection = db.collection('Carts');
   const cursor = await collection.find({"cartId": cartId}); // TODO maybe not async?
   const fullCartData = await cursor.toArray();
   const itemsInCartQt = await cursor.count();
   try {
-    res.json(itemsInCartQt);  // TODO now sending back only qt, better to ley frontend have it all yeah? 
+    res.json(itemsInCartQt);  // TODO now sending back only qt, better to ley frontend have it all yeah?  
   } catch (error) {
     console.log(error);
   }

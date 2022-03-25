@@ -36,7 +36,7 @@ function App() {
   },[]);
 
   useEffect(() => {
-      fetch('/cart-items')   
+      fetch('/cart-items-qt')   
       .then((res) => res.json())
       .then((data) => dispatch(cartSliceActions.initialCartQt(data)));      
   }, []);

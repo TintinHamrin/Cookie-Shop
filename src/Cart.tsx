@@ -14,6 +14,9 @@ import ButtonElement from './UI/ButtonElement';
 import { Button, Dialog } from '@mui/material';
 import Checkout from './Checkout';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import CartListItem from './CartListItem';
+import { List } from '@mui/icons-material';
 
 const style = {
   position: 'absolute',
@@ -25,6 +28,21 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+
+  maxHeight: '400px',
+  overflow: 'auto'
+};
+
+const listStyle = {
+ 
+  maxHeight: '90%',
+  overflow: 'auto'
+};
+
+export type Cart = {
+_id: number,
+carttId: number,
+price: number,
 };
 
 export default function Cart() {
@@ -32,6 +50,7 @@ export default function Cart() {
   const checkoutIsOpen = useSelector(
     (state: RootState) => state.checkout.isOpen
   );
+  const [fullCartDetails, setFullCartDetails] = useState<Array<Cart>>([])
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -44,6 +63,23 @@ export default function Cart() {
     dispatch(checkoutSliceActions.toggleOpen(true));
     dispatch(cartSliceActions.toggleOpen(false));
   };
+
+  // useEffect(() => { 
+  //   (asyncfetch('/cart-items-detailed')
+  //   .then ((res) => res.json())
+  //   .then((data) => console.log(data)) // WORKS
+  //   // console.log(fullCartDetails) //FIXME why an empty array?
+  // }, []())
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch('/cart-items-detailed');
+      const fetchedProducts = await data.json();
+      setFullCartDetails(fetchedProducts);
+      console.log(fetchedProducts);
+      console.log(fullCartDetails);
+    })();
+  }, []);
 
   return (
     <div>
@@ -65,6 +101,14 @@ export default function Cart() {
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Your cart
             </Typography>
+        <Box sx={listStyle}>
+            {fullCartDetails.map((product) => (
+          //    <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+          //    {product.price}
+          //  </Typography>
+          <CartListItem  />
+            ))}
+        </Box>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               Items
             </Typography>
