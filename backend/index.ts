@@ -1,118 +1,113 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import express from "express";
+import { MongoClient, Db } from "mongodb";
+import bodyParser from "body-parser";
 const app = express();
-const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(helmet());
-const { MongoClient } = require('mongodb');
 var url =
-  'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2';
+  "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2";
 
-var client: any; // TODO type notate
-var db: any;  // TODO type notate
-var cartId: any; // TODO type notatestring;
+var client: MongoClient; // TODO type notate
+var db: Db; // TODO type notate
+var cartId: any; // TODO type notate;
 
 // FIXME type notation
-MongoClient.connect(url, function (err: any, c: any) {
-  client = c;
-  db = client.db('CookieShop');
+MongoClient.connect(url, (err, c) => {
+  client = c!;
+  db = client.db("CookieShop");
   if (err) throw err;
-  console.log('Database created!');
+  console.log("Database created!");
 });
 
-app.get('/products', async (req, res) => {
-  var cursor = db.collection('Products').find({});
+app.get("/products", async (req, res) => {
+  var cursor = db.collection("Products").find({});
   const allValues = await cursor.toArray();
   res.json(allValues);
 });
 
+app.get("/getName/:id", async (req, res) => {
+  // TODO rename /products/:id
+  const params = parseInt(req.params.id);
+  console.log(params);
+  const document = await db.collection("Products").findOne({ _id: params });
+  res.json(document);
+});
+
 // TODO validate user input before insert
-app.post('/cookie-suggestions', (req, res) => {
-  db.collection('CustomerIdeas').insertOne(req.body);
-  res.json('Thanks for your suggestion!');
+app.post("/cookie-suggestions", (req, res) => {
+  db.collection("CustomerIdeas").insertOne(req.body);
+  res.json("Thanks for your suggestion!");
 });
 
-// app.get('/cart-fullDetails', async (req, res) => {  // TODO no need for a separate function   
-//                                               // when i can use what i alreadu have right?
-
-// }
-
-// FIXME set cookie + validate req.body
-// TODO Q: Why dont i get the type notation??
-app.post('/cart-items', async (req, res) => {
+// TODO validate req.body
+// FIXME Q: Why dont i get the type notation??
+app.post("/cart-items", async (req, res) => {
   const cartId = req.cookies.session;
-  const collection = db.collection('Carts');  // TODO Q: bad name as im now using simple date types db design?
-  db.collection('Carts').insertOne({...req.body, cartId: cartId}); //TODO can i change this to var cartsCollection?
-  res.json({cookie: cartId});  //TODO i should send back full cart details here?
+  const collection = db.collection("Carts"); //
+  collection.insertOne({ ...req.body, cartId: cartId }); //TODO can i change this to var cartsCollection?
+  res.json({ cookie: cartId }); //TODO i should send back full cart details here?
 });
 
-app.get('/cart-items-detailed', async (req, res) => {
+app.get("/cart-items-detailed", async (req, res) => {
+  //take awau det.
   const cartId = req.cookies.session;
-  const collection = db.collection('Carts');
-  const cursor = await collection.find({"cartId": cartId}); // TODO maybe not async?
+  const collection = db.collection("Carts");
+  const cursor = await collection.find({ cartId: cartId }); // TODO maybe not async?
   const fullCartData = await cursor.toArray();
-  console.log(fullCartData)
+  const fullCartQt = await cursor.count(); //change to length???
+
+  let sum = 0; // FIXME good decision to have in backend?
+  for (let i = 0; i < fullCartData.length; i++) {
+    // TODO each or for loop, never this kind
+    console.log("?"); // TODO reduce function, look up
+    sum += fullCartData[i].price;
+  }
+
   try {
-    res.json(fullCartData);  // FIXME REPEATING MYSELF!!!! Make on request endpoint for this and below.  
+    // TODO try catch is stupid
+    res.json({ fullCart: fullCartData, Qt: fullCartQt, sum: sum.toFixed(2) }); //TODO qt -> fullcart.lenght on the client instead
   } catch (error) {
-    console.log(error);
+    console.log(error); // TODO send back respons
   }
 });
 
-app.get('/cart-items-qt', async (req, res) => {
-  const cartId = req.cookies.session;
-  const collection = db.collection('Carts');
-  const cursor = await collection.find({"cartId": cartId}); // TODO maybe not async?
-  const fullCartData = await cursor.toArray();
-  const itemsInCartQt = await cursor.count();
-  try {
-    res.json(itemsInCartQt);  // TODO now sending back only qt, better to ley frontend have it all yeah?  
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-// FIXME type notation
+// TODO type notation
 const validateCookie = (req: any, res: any, next: any) => {
   const cartId = req.cookies;
-  if ('session' in cartId) {
-    console.log('session cookie exists!'); //FIXME also need to validate the cookie? 
-  } else res.status(403).send('no cookie found!');
-  next()
+  if ("session" in cartId) { //TODO move req.cookies down here
+    console.log("session cookie exists!"); //TODO also need to validate the cookie?
+  } else res.status(403).send("no cookie found!");
+  next();
 };
 
-// FIXME change name of endpoint
-app.get('/cartId', (req, res) => {
+// TODO change name of endpoint
+app.get("/cartId", (req, res) => {  //unelegant, should be when adding 1st item, could be middleware
   if (!req.cookies.session) {
     cartId = Math.random().toString();
-    res.cookie('session', cartId) // TODO type notate
-    res.send('you are cookified!');
+    res.cookie("session", cartId);
+    res.send("you are cookified!");
   } else {
-    res.send('you are already authenticated!');
+    res.send("you are already authenticated!");
   }
 });
 
-app.get('/cartId-delete', (req, res) => {
-  res.clearCookie('session');
-  res.json('cookie is gone!');
+app.get("/cartId-delete", (req, res) => {
+  res.clearCookie("session");
+  res.json("cookie is gone!");
 });
 
-app.get('/cartId-validate', validateCookie, (req, res) => {
-  const cartId = req.cookies;
+app.get("/cartId-validate", validateCookie, (req, res) => {
+  const cartId = req.cookies.session;
   res.json({ cookie: cartId });
 });
 
-// start listening on port 3001
 app.listen(3001, () => {
-  console.log('listening on 3001!');
+  console.log("listening on 3001!");
 });
-
-
-
-
 
 // TODO CRUD operations
 // FIXME database normalization: remove product name / price from cart (use product_id)

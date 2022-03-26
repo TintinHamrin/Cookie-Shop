@@ -17,7 +17,7 @@ export default function ProductCard(props: Product) {
 
   const dispatch = useDispatch();
 
-  const addToCartHandler = async (product: any) => {
+  const addToCartHandler = async (props: Product) => {
     fetch('/cart-items', {
       method: 'POST',
       headers: {
@@ -25,8 +25,8 @@ export default function ProductCard(props: Product) {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        itemId: product._id,
-        price: product.price
+        productId: props._id,
+        price: props.price
       }),
     })
       .then((res) => res.json())

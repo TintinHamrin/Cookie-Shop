@@ -36,9 +36,12 @@ function App() {
   },[]);
 
   useEffect(() => {
-      fetch('/cart-items-qt')   
-      .then((res) => res.json())
-      .then((data) => dispatch(cartSliceActions.initialCartQt(data)));      
+    (async () => {
+      const data = await fetch('/cart-items-detailed');
+      const fetchedProducts = await data.json();
+      const cartQt = fetchedProducts.Qt;
+      dispatch(cartSliceActions.initialCartQt(cartQt))
+    })();
   }, []);
 
   //FIXME 

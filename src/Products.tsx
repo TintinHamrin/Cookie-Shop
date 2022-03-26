@@ -3,11 +3,8 @@ import ProductCard from "./ProductCard";
 import "./Products.scss";
 
 export type Product = {
-  //make a class for product?
-  // id: number;
   img: string;
-  //   productId: number;
-  productId: number;
+  _id: number;
   name: string;
   price: number;
   description: string;
@@ -30,8 +27,7 @@ function Products(props: any) {
     <div className="products">
       {products.map((product) => (
         <ProductCard
-          // productId={product._id}
-          productId={product.productId}
+          _id={product._id}  //FIXME not intuitive to me why i cant name the prop as i want? Is it bc of the type?
           name={product.name}
           price={product.price}
           img={imgPath + product.img + ".jpg"}
