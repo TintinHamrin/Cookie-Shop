@@ -5,6 +5,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const helmet = require("helmet");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -13,6 +14,11 @@ app.get('*', (req: any, res) => {
   req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 })
 app.use(helmet());
+
+app.use(
+  createProxyMiddleware("/*", { target: "http://localhost:3001" })
+);
+
 
 const port = process.env.port || 3001;
 var url =
