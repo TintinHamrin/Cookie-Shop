@@ -20,7 +20,7 @@ app.use(
 );
 
 
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 var url =
   "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2";
 
