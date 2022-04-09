@@ -1,6 +1,7 @@
 import express from "express";
 import { MongoClient, Db } from "mongodb";
 import bodyParser from "body-parser";
+import path from "path";
 const app = express();
 const cookieParser = require("cookie-parser");
 // const path = require("path");
@@ -34,6 +35,10 @@ MongoClient.connect(url, (err, c) => {
   db = client.db("CookieDB");
   if (err) throw err;
   console.log("Database created in the cloud!");
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'));
 });
 
 app.get("/products", async (req, res) => {
