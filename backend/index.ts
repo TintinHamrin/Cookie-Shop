@@ -118,7 +118,8 @@ app.get("/cartId-validate", validateCookie, (req, res) => {
   res.json({ cookie: cartId });
 });
 
-app.listen(3001, () => {
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
   console.log("listening on 3001!");
 });
 
