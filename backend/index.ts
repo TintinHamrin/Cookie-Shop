@@ -22,7 +22,7 @@ app.use(express.static('../build'))
 
 
 var url =
-  "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2";
+  "mongodb+srv://tintin:tigernsar2022@cluster0.5c2mm.mongodb.net/test";
 
 var client: MongoClient; // TODO type notate
 var db: Db; // TODO type notate
@@ -31,9 +31,9 @@ var cartId: any; // TODO type notate;
 // FIXME type notation
 MongoClient.connect(url, (err, c) => {
   client = c!;
-  db = client.db("CookieShop");
+  db = client.db("CookieDB");
   if (err) throw err;
-  console.log("Database created!");
+  console.log("Database created in the cloud!");
 });
 
 app.get("/products", async (req, res) => {

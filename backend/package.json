@@ -23,8 +23,7 @@
   },
   "scripts": {
     "start":"ts-node index.ts",
-    "devstart": "nodemon index.ts",
-    "build": "tsc ."
+    "devstart": "nodemon index.ts"
   },
   "eslintConfig": {
     "extends": [
