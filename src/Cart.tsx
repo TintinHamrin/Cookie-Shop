@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import CartListItem from "./CartListItem";
 import { List } from "@mui/icons-material";
 import { Product } from "./Products";
+import { ApiClient } from "./ApiClient";
 
 const style = {
   position: "absolute",
@@ -66,7 +67,7 @@ export default function Cart() {
   useEffect(() => {
     //FIXME understans better why this is IIFE
     (async () => {
-      const data = await fetch("/cart-items-detailed"); //TODO never send same request 2 times
+      const data = await ApiClient.fetch("/cart-items-detailed"); //TODO never send same request 2 times
       const cartDetails = await data.json();
       const cartItems = cartDetails.fullCart; //FIXME okey to do like this. NOT REA
       const cartQt = cartDetails.Qt;

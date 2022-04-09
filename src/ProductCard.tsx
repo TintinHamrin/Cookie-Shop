@@ -12,18 +12,15 @@ import { cartSliceActions } from './store/store';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './App';
 import { useState } from 'react';
+import { ApiClient } from './ApiClient';
 
 export default function ProductCard(props: Product) {
 
   const dispatch = useDispatch();
 
   const addToCartHandler = async (props: Product) => {
-    fetch('/cart-items', {
+    ApiClient.fetch('/cart-items', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
       body: JSON.stringify({
         productId: props._id,
         price: props.price

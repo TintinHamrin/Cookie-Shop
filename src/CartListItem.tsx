@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import {Cart} from './Cart';
 import { useEffect, useState } from 'react';
 import { Product } from './Products';
+import { ApiClient } from './ApiClient';
 
 export default function CartListItem(props: Cart) { //FIXME what diff is it when i write typeof Cart?
   const [productName, setProductName] = useState()
@@ -17,7 +18,7 @@ export default function CartListItem(props: Cart) { //FIXME what diff is it when
 
     useEffect(() => { // TODO dont go to db, info already exists
         (async () => {
-          const data = await fetch(`/getName/${props.productId}`); // TODO rename
+          const data = await ApiClient.fetch(`/getName/${props.productId}`); // TODO rename
           const fetchedProducts = await data.json();
          setProductName(fetchedProducts.name)
          setImgPath(fetchedProducts.img)

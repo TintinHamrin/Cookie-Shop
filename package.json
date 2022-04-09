@@ -39,6 +39,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "reactstart": "react-scripts start",
     "start": "cd backend && npm run start",
     "heroku-postbuild": "cd backend && npm install",
     "build": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts build",

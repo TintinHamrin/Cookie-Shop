@@ -21,6 +21,7 @@ import { cartSliceActions, menuSliceActions, RootState } from './store/store';
 import { useEffect, useState } from 'react';
 import DrawerElement from './DrawerElement';
 import Cart from './Cart';
+import { ApiClient } from './ApiClient';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -175,7 +176,7 @@ export default function Navbar(props:any) { //TODO type notation
   };
 
   useEffect(() => {
-    fetch('/cart-item')
+    ApiClient.fetch('/cart-item')
       .then((res) => res.json())
       .then((data) => setCartItemsQt(data));
     dispatch(cartSliceActions.initialCartQt(cartItemsQt));

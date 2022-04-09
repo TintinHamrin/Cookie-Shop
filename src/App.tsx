@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import { cartSliceActions } from './store/store'
+import { ApiClient } from './ApiClient';
 
 export const theme = createTheme({
   palette: {
@@ -29,14 +30,14 @@ function App() {
  const dispatch = useDispatch()
 
   useEffect(() => {
-    fetch('/cartId')  //TODO rename to /cart-id/create
+    ApiClient.fetch('/cartId')  //TODO rename to /cart-id/create
       .then((res) => res.json())
       .then((data) => console.log(data));
   },[]);
 
   useEffect(() => {
     (async () => {
-      const data = await fetch('/cart-items-detailed');
+      const data = await ApiClient.fetch('/cart-items-detailed');
       const fetchedProducts = await data.json();
       const cartQt = fetchedProducts.Qt;
       dispatch(cartSliceActions.initialCartQt(cartQt))

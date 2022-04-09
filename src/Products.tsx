@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "./Products.scss";
+import {ApiClient} from "./ApiClient";
 
 export type Product = {
   img: string;
@@ -16,7 +17,7 @@ function Products(props: any) {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch("/products");
+      const data = await ApiClient.fetch("/products");
       const fetchedProducts = await data.json();
       setProducts(fetchedProducts);
       console.log(fetchedProducts);

@@ -5,6 +5,7 @@ import { Button, CardContent, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import './About.scss';
+import { ApiClient } from './ApiClient';
 
 export default function About() {
   const [text, setText] = useState('');
@@ -19,12 +20,8 @@ export default function About() {
   };
 
   const sendDataToDb = () => {
-    fetch('/cookie-suggestions', {
+    ApiClient.fetch('/cookie-suggestions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
       body: JSON.stringify({ cookieIWantTooSee: text }),
     })
       .then((res) => res.json())
