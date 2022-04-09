@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
-// app.use(express.static('build'))
+app.use(express.static('../build'))
 // app.get('*', (req: any, res) => {
 //   req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 // })

@@ -22,7 +22,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "nodemon index.ts"
+    "start":"ts-node index.ts",
+    "devstart": "nodemon index.ts",
+    "build": "tsc ."
   },
   "eslintConfig": {
     "extends": [
