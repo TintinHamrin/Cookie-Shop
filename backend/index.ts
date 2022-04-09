@@ -3,24 +3,24 @@ import { MongoClient, Db } from "mongodb";
 import bodyParser from "body-parser";
 const app = express();
 const cookieParser = require("cookie-parser");
-const path = require("path");
-const helmet = require("helmet");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+// const path = require("path");
+// const helmet = require("helmet");
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.static('build'))
-app.get('*', (req: any, res) => {
-  req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-})
-app.use(helmet());
+// app.use(express.static('build'))
+// app.get('*', (req: any, res) => {
+//   req.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+// })
+// app.use(helmet());
 
-app.use(
-  createProxyMiddleware("/*", { target: "http://localhost:3001" })
-);
+// app.use(
+//   createProxyMiddleware("/*", { target: "http://localhost:3001" })
+// );
 
 
-const port = process.env.PORT || 3001;
+
 var url =
   "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.2.2";
 
@@ -118,7 +118,7 @@ app.get("/cartId-validate", validateCookie, (req, res) => {
   res.json({ cookie: cartId });
 });
 
-app.listen(port, () => {
+app.listen(3001, () => {
   console.log("listening on 3001!");
 });
 

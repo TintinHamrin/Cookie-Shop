@@ -45,8 +45,8 @@ export default function About() {
           <Typography variant="h5">About the cookie shop!</Typography>
           <Typography variant="body1">
             For the love of the cookie we are here for you. Made with love,
-            butter, egg and other divine ingredients out cakes has been voted
-            the best in the county several times. Come by for a cup of joe and a
+            butter, egg and other divine ingredients our cakes has been voted
+            the best in the country several times. Come by for a cup of joe and a
             slice of love.
           </Typography>
         </CardContent>

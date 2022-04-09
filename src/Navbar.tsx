@@ -189,7 +189,7 @@ export default function Navbar(props:any) { //TODO type notation
         className="navBar"
         position="static"
         // style={{
-        //   backgroundColor: 'rgba(238, 178, 181, 0.8)',
+        //   backgroundColor: 'rgba(238, 178, 181, 0.8)',co
         //   color: 'black',
         // }}
       >
