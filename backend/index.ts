@@ -17,7 +17,7 @@ console.log('static pat:')
 console.log(path.join(__dirname, "/../build"));
 
 app.use("/api/v1", api);
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   console.log('in first get') 
   res.sendFile(path.join(__dirname, "/../build/index.html"));
 });
