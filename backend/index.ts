@@ -17,14 +17,14 @@ console.log('static pat:')
 console.log(path.join(__dirname, "/../build"));
 
 app.use("/api/v1", api);
-app.get("*", (req, res) => {
+app.get("*jj ", (req, res) => {
   console.log('in first get') 
   res.sendFile(path.join(__dirname, "/../build/index.html"));
 });
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-  console.log("listening on 3001!");
+  console.log("listening on 3001!!");
 });
 
 app.get("/test1", (req, res) => {
