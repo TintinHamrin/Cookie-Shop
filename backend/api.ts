@@ -19,6 +19,17 @@ MongoClient.connect(url, (err, c) => {
 });
 
 
+app.get("/test1", (req, res) => {
+  const testFolder = '../build';
+  const fs = require('fs');
+  console.log('in test1 api') 
+
+  fs.readdirSync(testFolder).forEach(file => {
+    console.log(file);
+  });
+  
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 
 app.get("/products", async (req, res) => {
   var cursor = db.collection("Products").find({});
