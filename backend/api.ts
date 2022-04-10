@@ -2,6 +2,7 @@ import express from "express";
 
 import { MongoClient, Db } from "mongodb";
 import path from "path";
+import * as fs from 'fs'
 var app = express.Router();
 
 var url = "mongodb+srv://tintin:tigernsar2022@cluster0.5c2mm.mongodb.net/test";
@@ -21,7 +22,6 @@ MongoClient.connect(url, (err, c) => {
 
 app.get("/test1", (req, res) => {
   const testFolder = '../build';
-  const fs = require('fs');
   console.log('in test1 api') 
 
   fs.readdirSync(testFolder).forEach(file => {
