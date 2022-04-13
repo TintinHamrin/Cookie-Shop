@@ -1,18 +1,16 @@
 import * as React from 'react';
 import './ProductCard.scss';
+import { Product } from './Products';
+import { useDispatch } from 'react-redux';
+import { cartSliceActions } from './store/store';
+import { ApiClient } from './ApiClient';
+//MUI
+import CardMedia from '@mui/material/CardMedia';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Product } from './Products';
-import CardMedia from '@mui/material/CardMedia';
-import { useDispatch } from 'react-redux';
-import { cartSliceActions } from './store/store';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './App';
-import { useState } from 'react';
-import { ApiClient } from './ApiClient';
 
 export default function ProductCard(props: Product) {
 
@@ -33,7 +31,6 @@ export default function ProductCard(props: Product) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Card className="card" sx={{ backgroundColor: 'primary.main' }}>
         <CardMedia
           component="img"
@@ -64,6 +61,5 @@ export default function ProductCard(props: Product) {
           </Button>
         </CardActions>
       </Card>
-    </ThemeProvider>
   );
 }

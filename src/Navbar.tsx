@@ -1,4 +1,11 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { cartSliceActions, menuSliceActions, RootState } from './store/store';
+import { useEffect, useState } from 'react';
+import DrawerElement from './DrawerElement';
+import Cart from './Cart';
+import { ApiClient } from './ApiClient';
+//MUI
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,12 +23,6 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartSliceActions, menuSliceActions, RootState } from './store/store';
-import { useEffect, useState } from 'react';
-import DrawerElement from './DrawerElement';
-import Cart from './Cart';
-import { ApiClient } from './ApiClient';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar(props:any) { //TODO type notation
+export default function Navbar() { 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [cartItemsQt, setCartItemsQt] = useState(0);
@@ -189,10 +190,6 @@ export default function Navbar(props:any) { //TODO type notation
         color="primary"
         className="navBar"
         position="static"
-        // style={{
-        //   backgroundColor: 'rgba(238, 178, 181, 0.8)',co
-        //   color: 'black',
-        // }}
       >
         <Toolbar>
           <IconButton

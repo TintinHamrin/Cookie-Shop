@@ -1,18 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
+import { checkoutSliceActions, RootState } from "./store/store";
+//MUI
 import {
   Backdrop,
   Box,
   Button,
-  Card,
   Divider,
-  Fade,
   Modal,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { checkoutSliceActions, RootState } from "./store/store";
-import ButtonElement from "./UI/ButtonElement";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -26,18 +24,17 @@ const style = {
   p: 4,
 };
 
-function Checkout() {
+export default function Checkout() {
   const dispatch = useDispatch();
   const checkoutIsOpen = useSelector(
     (state: RootState) => state.checkout.isOpen
   );
 
-  const openPaymentDetailsHandler = () => {
-    console.log("opening payment details");
+  const openPaymentHandler = () => {
+    //TODO add paypal
   };
 
   const handleClose = () => {
-    console.log("closing cart");
     dispatch(checkoutSliceActions.toggleOpen(false));
   };
 
@@ -55,7 +52,7 @@ function Checkout() {
         timeout: 500,
       }}
     >
-      <Box color="secondary.main" sx={style}>
+      <Box sx={style}>
         <Typography id="transition-modal-title" variant="h6" component="h2">
           Your cart
         </Typography>
@@ -68,28 +65,28 @@ function Checkout() {
           noValidate
           autoComplete="off"
         >
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="standard-basic" label="Standard" variant="standard" />
+          <TextField id="filled-basic" label="Full name" variant="filled" />
+          <TextField id="filled-basic" label="Address" variant="filled" />
+          <TextField id="filled-basic" label="Email" variant="filled" />
         </Box>
 
         <Divider variant="fullWidth" />
         <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-          Total: x
+          Total: $
         </Typography>
         <Divider variant="fullWidth" />
-        <ButtonElement>Keep shopping</ButtonElement>
+        <Button variant="outlined" onClick={handleClose}>
+          Keep shopping
+        </Button>
         <Button
           variant="outlined"
-          // to="/checkout"
-          // component={Link}
-          // onClick={openCheckoutHandler}
+          to="/checkout"
+          component={Link}
+          onClick={openPaymentHandler}
         >
-          Pay
+          Pay with PayPal
         </Button>
       </Box>
     </Modal>
   );
 }
-
-export default Checkout;

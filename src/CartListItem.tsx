@@ -1,24 +1,23 @@
 import * as React from 'react';
-import List from '@mui/material/List';
+import {CartType} from './Cart';
+import { useEffect, useState } from 'react';
+import { ApiClient } from './ApiClient';
+//MUI
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import {Cart} from './Cart';
-import { useEffect, useState } from 'react';
-import { Product } from './Products';
-import { ApiClient } from './ApiClient';
 
-export default function CartListItem(props: Cart) { //FIXME what diff is it when i write typeof Cart?
+export default function CartListItem(props: CartType) { 
   const [productName, setProductName] = useState()
   const [imgPath, setImgPath] = useState()
 
 
     useEffect(() => { // TODO dont go to db, info already exists
         (async () => {
-          const data = await ApiClient.fetch(`/getName/${props.productId}`); // TODO rename
+          const data = await ApiClient.fetch(`/getName/${props.productId}`); 
           const fetchedProducts = await data.json();
          setProductName(fetchedProducts.name)
          setImgPath(fetchedProducts.img)

@@ -11,9 +11,6 @@ export default function About() {
   const [text, setText] = useState('');
   const [feedbackText, setFeedbackText] = useState('');
 
-  //   const textInputField = document.querySelector('#textInput'!);
-  //   const textInput = textInputField!.value;
-
   const textInputHandler = (e: any) => {
     setText(e.target.value);
     console.log(text);
@@ -28,7 +25,6 @@ export default function About() {
       .then((data) => setFeedbackText(data));
   };
 
-  // TODO read up on difference between style and sx prop.
   return (
     <div className="container">
       <Paper

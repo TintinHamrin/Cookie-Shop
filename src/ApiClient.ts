@@ -5,6 +5,6 @@ export class ApiClient {
         Accept: 'application/json',
       }
     options.headers = {...headers , ...options.headers}
-    return fetch("/api/v1" + url, options);
+    return fetch(url, options);
   }
 }

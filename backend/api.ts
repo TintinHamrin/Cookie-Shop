@@ -1,17 +1,13 @@
-import express from "express";
-
+import express, { NextFunction, Response, Request } from "express";
 import { MongoClient, Db } from "mongodb";
-import path from "path";
-import * as fs from 'fs'
-var app = express.Router();
+const router = express.Router();
 
 var url = "mongodb+srv://tintin:tigernsar2022@cluster0.5c2mm.mongodb.net/test";
 
-var client: MongoClient; // TODO type notate
-var db: Db; // TODO type notate
-var cartId: any; // TODO type notate;
+var client: MongoClient; 
+var db: Db;
 
-// FIXME type notation
+
 MongoClient.connect(url, (err, c) => {
   client = c!;
   db = client.db("CookieDB");
@@ -20,99 +16,70 @@ MongoClient.connect(url, (err, c) => {
 });
 
 
-app.get("/test1", (req, res) => {
-  const testFolder = '../build';
-  console.log('in test1 api') 
-
-  fs.readdirSync(testFolder).forEach(file => {
-    console.log(file);
-  });
-  
-  res.sendFile(path.join(__dirname, "../build/index.html"));
-});
-
-app.get("/products", async (req, res) => {
+router.get("/products", async (req: Request, res: Response) => {
   var cursor = db.collection("Products").find({});
   const allValues = await cursor.toArray();
   res.json(allValues);
 });
 
-app.get("/getName/:id", async (req, res) => {
-  // TODO rename /products/:id
+router.get("/getName/:id", async (req: Request, res: Response) => {
   const params = parseInt(req.params.id);
   console.log(params);
   const document = await db.collection("Products").findOne({ _id: params });
   res.json(document);
 });
 
-// TODO validate user input before insert
-app.post("/cookie-suggestions", (req, res) => {
+router.post("/cookie-suggestions", (req, res) => {
   db.collection("CustomerIdeas").insertOne(req.body);
   res.json("Thanks for your suggestion!");
 });
 
-// TODO validate req.body
-// FIXME Q: Why dont i get the type notation??
-app.post("/cart-items", async (req, res) => {
+router.post("/cart-items", async (req: Request, res: Response) => {
   const cartId = req.cookies.session;
   const collection = db.collection("Carts"); //
-  collection.insertOne({ ...req.body, cartId: cartId }); //TODO can i change this to var cartsCollection?
-  res.json({ cookie: cartId }); //TODO i should send back full cart details here?
+  collection.insertOne({ ...req.body, cartId: cartId }); 
+  res.json({ cookie: cartId }); 
 });
 
-app.get("/cart-items-detailed", async (req, res) => {
-  //take awau det.
+router.get("/cart-items-detailed", async (req: Request, res: Response) => {
   const cartId = req.cookies.session;
   const collection = db.collection("Carts");
-  const cursor = await collection.find({ cartId: cartId }); // TODO maybe not async?
+  const cursor = await collection.find({ cartId: cartId }); 
   const fullCartData = await cursor.toArray();
-  const fullCartQt = await cursor.count(); //change to length???
+  const fullCartQt = await cursor.count(); 
 
-  let sum = 0; // FIXME good decision to have in backend?
+  let sum = 0; 
   for (let i = 0; i < fullCartData.length; i++) {
-    // TODO each or for loop, never this kind
-    console.log("?"); // TODO reduce function, look up
+    // TODO each or for loop, never this kind, reduce?
     sum += fullCartData[i].price;
   }
 
   try {
-    // TODO try catch is stupid
     res.json({ fullCart: fullCartData, Qt: fullCartQt, sum: sum.toFixed(2) }); //TODO qt -> fullcart.lenght on the client instead
   } catch (error) {
     console.log(error); // TODO send back respons
   }
 });
 
-// TODO type notation
-const validateCookie = (req: any, res: any, next: any) => {
-  const cartId = req.cookies;
-  if ("session" in cartId) {
-    //TODO move req.cookies down here
-    console.log("session cookie exists!"); //TODO also need to validate the cookie?
-  } else res.status(403).send("no cookie found!");
-  next();
-};
 
-// TODO change name of endpoint
-app.get("/cartId", (req, res) => {
-  //unelegant, should be when adding 1st item, could be middleware
-  if (!req.cookies.session) {
-    cartId = Math.random().toString();
-    res.cookie("session", cartId);
+router.get("/cartId", (req: Request, res: Response) => {
+  if (!req.session) {
+    req.session = {isLoggedIn: true}
     res.send("you are cookified!");
   } else {
     res.send("you are already authenticated!");
   }
 });
 
-app.get("/cartId-delete", (req, res) => {
-  res.clearCookie("session");
-  res.json("cookie is gone!");
-});
+// Not currently used
+// const validateCookie = (req: Request, res: Response, next: NextFunction) => {
+//   const cartId = req.session;
+//   if ("session" in cartId) {
+//     //TODO move req.cookies down here
+//     console.log("session cookie exists!"); //TODO also need to validate the cookie?
+//   } else res.status(403).send("no cookie found!");
+//   next();
+// };
 
-app.get("/cartId-validate", validateCookie, (req, res) => {
-  const cartId = req.cookies.session;
-  res.json({ cookie: cartId });
-});
 
-module.exports = app;
+module.exports = router;

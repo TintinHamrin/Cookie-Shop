@@ -1,24 +1,20 @@
-import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 import {
   cartSliceActions,
   checkoutSliceActions,
   RootState,
 } from "./store/store";
 import { useDispatch, useSelector } from "react-redux";
-import ButtonElement from "./UI/ButtonElement";
-import { Button, Dialog, Divider } from "@mui/material";
-import Checkout from "./Checkout";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CartListItem from "./CartListItem";
-import { List } from "@mui/icons-material";
-import { Product } from "./Products";
 import { ApiClient } from "./ApiClient";
+//MUI
+import { Button, Divider } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
 
 const style = {
   position: "absolute",
@@ -40,7 +36,7 @@ const listStyle = {
   overflow: "auto",
 };
 
-export type Cart = { // TODO name -> cartitem, doesnt belong here? 
+export type CartType = {
   _id: number;
   cartId: number;
   price: number;
@@ -50,7 +46,7 @@ export type Cart = { // TODO name -> cartitem, doesnt belong here?
 export default function Cart() {
   const cartIsOpen = useSelector((state: RootState) => state.cart.isOpen);
 
-  const [fullCartDetails, setFullCartDetails] = useState<Array<Cart>>([]);
+  const [fullCartDetails, setFullCartDetails] = useState<Array<CartType>>([]);
   const [fullCartQt, setFullCartQt] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const dispatch = useDispatch();
@@ -65,16 +61,15 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    //FIXME understans better why this is IIFE
     (async () => {
-      const data = await ApiClient.fetch("/cart-items-detailed"); //TODO never send same request 2 times
+      const data = await ApiClient.fetch("/cart-items-detailed");
       const cartDetails = await data.json();
-      const cartItems = cartDetails.fullCart; //FIXME okey to do like this. NOT REA
+      const cartItems = cartDetails.fullCart;
       const cartQt = cartDetails.Qt;
       const sum = cartDetails.sum;
       setFullCartDetails(cartItems);
       setFullCartQt(cartQt);
-      setTotalPrice(sum);  // TODO refactor to less code
+      setTotalPrice(sum);
     })();
   }, []);
 
@@ -100,14 +95,18 @@ export default function Cart() {
             </Typography>
             <Divider variant="fullWidth" />
             <Box sx={listStyle}>
-              {fullCartDetails.map((product) => (  // -> cartitem
-                <CartListItem
-                  price={product.price}
-                  cartId={product.cartId}
-                  _id={product._id}
-                  productId={product.productId} 
-                />
-              ))}
+              {fullCartDetails.map(
+                (
+                  product // -> cartitem
+                ) => (
+                  <CartListItem
+                    price={product.price}
+                    cartId={product.cartId}
+                    _id={product._id}
+                    productId={product.productId}
+                  />
+                )
+              )}
             </Box>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               Items: {fullCartQt}
@@ -117,7 +116,9 @@ export default function Cart() {
               Total: ${totalPrice}
             </Typography>
             <Divider variant="fullWidth" />
-            <ButtonElement>Keep shopping</ButtonElement>
+            <Button variant="outlined" onClick={handleClose}>
+              Keep shopping
+            </Button>
             <Button
               variant="outlined"
               to="/checkout"

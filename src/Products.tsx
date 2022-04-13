@@ -11,7 +11,7 @@ export type Product = {
   description: string;
 };
 
-function Products(props: any) {
+function Products() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const imgPath = "/assets/";
 
@@ -28,7 +28,7 @@ function Products(props: any) {
     <div className="products">
       {products.map((product) => (
         <ProductCard
-          _id={product._id}  //FIXME not intuitive to me why i cant name the prop as i want? Is it bc of the type?
+          _id={product._id}  
           name={product.name}
           price={product.price}
           img={imgPath + product.img + ".jpg"}

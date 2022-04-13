@@ -1,48 +1,38 @@
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import { useDispatch, useSelector } from 'react-redux';
-import { menuSliceActions, RootState } from './store/store';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { menuSliceActions, RootState } from "./store/store";
+import { Link } from "react-router-dom";
+//MUI
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 export default function DrawerElement() {
   const menuSelector = useSelector((state: RootState) => state.menu.isOpen);
   const dispatch = useDispatch();
-  const [chosenMenuItem, setChosenMenuItem] = useState('');
 
   const toggleDrawer = () => {
-    console.log('closing');
+    console.log("closing");
     dispatch(menuSliceActions.toggleOpen(false));
   };
 
-  const itemHandler = (index: number) => {
-    if (index === 0) {
-      console.log('prods');
-      setChosenMenuItem('products');
-    } else {
-      console.log('about');
-      setChosenMenuItem('about');
-    }
-  };
+ 
 
   return (
     <Drawer open={menuSelector} onClose={toggleDrawer}>
       <Box
-        // style={{ backgroundColor: 'rgba(238, 178, 181, 0.5)', height: 'fit' }}
         role="presentation"
         onClick={toggleDrawer}
         onKeyDown={toggleDrawer}
+        sx={{
+          backgroundColor: "primary.main",
+        }}
       >
-        <List color="secondary">
+        <List>
           <ListItem
             button
             key="products"
-            onClick={(e: any) => {
-              itemHandler(0);
-            }}
             to="/products"
             component={Link}
           >
@@ -51,9 +41,6 @@ export default function DrawerElement() {
           <ListItem
             button
             key="about"
-            onClick={(e: any) => {
-              itemHandler(1);
-            }}
             to="/about"
             component={Link}
           >
