@@ -2,10 +2,18 @@ import express, { NextFunction, Response, Request } from "express";
 import { MongoClient, Db } from "mongodb";
 const router = express.Router();
 
+
 var url = "mongodb+srv://tintin:tigernsar2022@cluster0.5c2mm.mongodb.net/test";
 
-var client: MongoClient; 
+var client: MongoClient;
 var db: Db;
+console.log("process:", process.env);
+
+interface ProcessEnv {
+  NODE_ENV: string;
+  PORT: string;
+  MONGO_URL: string;
+}
 
 
 MongoClient.connect(url, (err, c) => {
@@ -14,7 +22,6 @@ MongoClient.connect(url, (err, c) => {
   if (err) throw err;
   console.log("Database created in the cloud!");
 });
-
 
 router.get("/products", async (req: Request, res: Response) => {
   var cursor = db.collection("Products").find({});
@@ -37,18 +44,18 @@ router.post("/cookie-suggestions", (req, res) => {
 router.post("/cart-items", async (req: Request, res: Response) => {
   const cartId = req.cookies.session;
   const collection = db.collection("Carts"); //
-  collection.insertOne({ ...req.body, cartId: cartId }); 
-  res.json({ cookie: cartId }); 
+  collection.insertOne({ ...req.body, cartId: cartId });
+  res.json({ cookie: cartId });
 });
 
 router.get("/cart-items-detailed", async (req: Request, res: Response) => {
   const cartId = req.cookies.session;
   const collection = db.collection("Carts");
-  const cursor = await collection.find({ cartId: cartId }); 
+  const cursor = await collection.find({ cartId: cartId });
   const fullCartData = await cursor.toArray();
-  const fullCartQt = await cursor.count(); 
+  const fullCartQt = await cursor.count();
 
-  let sum = 0; 
+  let sum = 0;
   for (let i = 0; i < fullCartData.length; i++) {
     // TODO each or for loop, never this kind, reduce?
     sum += fullCartData[i].price;
@@ -61,10 +68,9 @@ router.get("/cart-items-detailed", async (req: Request, res: Response) => {
   }
 });
 
-
 router.get("/cartId", (req: Request, res: Response) => {
   if (!req.session) {
-    req.session = {isLoggedIn: true}
+    req.session = { isLoggedIn: true };
     res.send("you are cookified!");
   } else {
     res.send("you are already authenticated!");
@@ -80,6 +86,5 @@ router.get("/cartId", (req: Request, res: Response) => {
 //   } else res.status(403).send("no cookie found!");
 //   next();
 // };
-
 
 module.exports = router;
