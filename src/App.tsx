@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './app.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -6,11 +6,11 @@ import Products from './Products';
 import Cart from './Cart';
 import About from './About';
 import Checkout from './Checkout';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './store/store';
+import { useDispatch } from 'react-redux';
 import { cartSliceActions } from './store/store'
 import { ApiClient } from './ApiClient';
+//MUI
+import { createTheme, ThemeProvider } from '@mui/material';
 
 export const theme = createTheme({
   palette: {
@@ -26,18 +26,18 @@ export const theme = createTheme({
   },
 });
 
-function App() {
+export default function App() {
  const dispatch = useDispatch()
 
   useEffect(() => {
-    ApiClient.fetch('/cartId')  //TODO rename to /cart-id/create
+    ApiClient.fetch('/cart-id')  
       .then((res) => res.json())
       .then((data) => console.log(data));
   },[]);
 
   useEffect(() => {
     (async () => {
-      const data = await ApiClient.fetch('/cart-items-detailed');
+      const data = await ApiClient.fetch('/cart-items');
       const fetchedProducts = await data.json();
       const cartQt = fetchedProducts.Qt;
       dispatch(cartSliceActions.initialCartQt(cartQt))
@@ -45,7 +45,6 @@ function App() {
   }, []);
 
   
-
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -63,4 +62,10 @@ function App() {
   );
 }
 
-export default App;
+
+//TODO's 
+// rename routers
+// add login page 
+// add user page w user info 
+// split up state store to seperate files
+// add nextJS
