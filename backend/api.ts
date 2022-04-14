@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 
 import { MongoClient, Db } from "mongodb";
 import path from "path";
@@ -20,24 +20,27 @@ MongoClient.connect(url, (err, c) => {
 });
 
 
-app.get("/test1", (req, res) => {
-  const testFolder = '../build';
-  console.log('in test1 api') 
+// app.get("/test1", (req, res) => {
+//   const testFolder = '../build';
+//   console.log('in test1 api') 
 
-  fs.readdirSync(testFolder).forEach(file => {
-    console.log(file);
-  });
+//   fs.readdirSync(testFolder).forEach(file => {
+//     console.log(file);
+//   });
   
-  res.sendFile(path.join(__dirname, "../build/index.html"));
-});
+//   res.sendFile(path.join(__dirname, "../build/index.html"));
+// });
 
-app.get("/products", async (req, res) => {
+
+
+
+app.get("/products", async (req: Request, res: Response) => {
   var cursor = db.collection("Products").find({});
   const allValues = await cursor.toArray();
   res.json(allValues);
 });
 
-app.get("/getName/:id", async (req, res) => {
+app.get("/getName/:id", async (req: Request, res: Response) => {
   // TODO rename /products/:id
   const params = parseInt(req.params.id);
   console.log(params);
@@ -46,23 +49,25 @@ app.get("/getName/:id", async (req, res) => {
 });
 
 // TODO validate user input before insert
-app.post("/cookie-suggestions", (req, res) => {
+app.post("/cookie-suggestions", (req: Request, res: Response) => {
   db.collection("CustomerIdeas").insertOne(req.body);
   res.json("Thanks for your suggestion!");
 });
 
 // TODO validate req.body
 // FIXME Q: Why dont i get the type notation??
-app.post("/cart-items", async (req, res) => {
-  const cartId = req.cookies.session;
+app.post("/cart-items", async (req: Request, res: Response) => {
+  // const cartId = req.cookies.session;
   const collection = db.collection("Carts"); //
   collection.insertOne({ ...req.body, cartId: cartId }); //TODO can i change this to var cartsCollection?
   res.json({ cookie: cartId }); //TODO i should send back full cart details here?
 });
 
-app.get("/cart-items-detailed", async (req, res) => {
-  //take awau det.
-  const cartId = req.cookies.session;
+// app.get("/cart-items-detailed", async (req: Request, res) => {
+//   //take awau det.
+//   // const cartId = req.cookies.session;
+//   req.session({isLoggedIn: true})
+
   const collection = db.collection("Carts");
   const cursor = await collection.find({ cartId: cartId }); // TODO maybe not async?
   const fullCartData = await cursor.toArray();
@@ -84,35 +89,36 @@ app.get("/cart-items-detailed", async (req, res) => {
 });
 
 // TODO type notation
-const validateCookie = (req: any, res: any, next: any) => {
-  const cartId = req.cookies;
-  if ("session" in cartId) {
-    //TODO move req.cookies down here
-    console.log("session cookie exists!"); //TODO also need to validate the cookie?
-  } else res.status(403).send("no cookie found!");
-  next();
-};
+// const validateCookie = (req: any, res: any, next: any) => {
+//   const cartId = req.cookies;
+//   if ("session" in cartId) {
+//     //TODO move req.cookies down here
+//     console.log("session cookie exists!"); //TODO also need to validate the cookie?
+//   } else res.status(403).send("no cookie found!");
+//   next();
+// };
 
 // TODO change name of endpoint
-app.get("/cartId", (req, res) => {
+app.get("/cartId", (req: Request, res: Response) => {
   //unelegant, should be when adding 1st item, could be middleware
-  if (!req.cookies.session) {
-    cartId = Math.random().toString();
-    res.cookie("session", cartId);
-    res.send("you are cookified!");
+  if (!req.session) {
+    // cartId = Math.random().toString();
+    // req.session("session", cartId);
+    // res.send("you are cookified!");
+    console.log('no cookie')
   } else {
     res.send("you are already authenticated!");
   }
 });
 
-app.get("/cartId-delete", (req, res) => {
-  res.clearCookie("session");
-  res.json("cookie is gone!");
-});
+// app.get("/cartId-delete", (req, res) => {
+//   res.clearCookie("session");
+//   res.json("cookie is gone!");
+// });
 
-app.get("/cartId-validate", validateCookie, (req, res) => {
-  const cartId = req.cookies.session;
-  res.json({ cookie: cartId });
-});
+// app.get("/cartId-validate", validateCookie, (req, res) => {
+//   const cartId = req.cookies.session;
+//   res.json({ cookie: cartId });
+// });
 
 module.exports = app;
