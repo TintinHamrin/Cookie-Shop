@@ -15,6 +15,8 @@ mongoose
   })
   .catch((err: any) => console.log("err", err));
 
+const db = mongoose.connection;
+
 const cartSchema: Schema = mongoose.Schema({
   productId: {
     type: String,
@@ -49,7 +51,16 @@ const productSchema: Schema = mongoose.Schema({
   },
 });
 
+const pastrySuggestionSchema: Schema = mongoose.Schema({
+  pastry: { type: String, required: true },
+});
+
 const cartModel = mongoose.model("Cart", cartSchema, "Carts");
 const productModel = mongoose.model("Product", productSchema, "Products");
+const pastrySuggestionModel = mongoose.model(
+  "PastrySuggestion",
+  pastrySuggestionSchema,
+  "CustomerIdeas"
+);
 
-export { productModel, cartModel };
+export { productModel, cartModel, pastrySuggestionModel, db };

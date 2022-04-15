@@ -19,7 +19,7 @@ export default function About() {
   const sendDataToDb = () => {
     ApiClient.fetch('/cookie-suggestions', {
       method: 'POST',
-      body: JSON.stringify({ cookieIWantTooSee: text }),
+      body: JSON.stringify({ pastry: text }),
     })
       .then((res) => res.json())
       .then((data) => setFeedbackText(data));

@@ -17,7 +17,7 @@ export default function CartListItem(props: CartType) {
 
     useEffect(() => { // TODO dont go to db, info already exists
         (async () => {
-          const data = await ApiClient.fetch(`/getName/${props.productId}`); 
+          const data = await ApiClient.fetch(`/product-name/${props.productId}`); 
           const fetchedProducts = await data.json();
          setProductName(fetchedProducts.name)
          setImgPath(fetchedProducts.img)
