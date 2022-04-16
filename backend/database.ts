@@ -3,9 +3,7 @@ import { Document, Model, model, Types, Schema, Query } from "mongoose";
 import dotenv from "dotenv";
 const mongoose = require("mongoose");
 
-console.log(dotenv.config());
-
-console.log("process env", process.env.DB_URL);
+dotenv.config();
 
 mongoose
   .connect(`${process.env.DB_URL}`, {
