@@ -4,7 +4,7 @@ var app = express.Router();
 
 app.get("/products", async (req: Request, res: Response) => {
   const products = await productModel.find({});
-  console.log(products);
+  console.log("prods", products);
   res.json(products);
 });
 

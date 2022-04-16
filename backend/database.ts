@@ -1,17 +1,19 @@
 import { MongoClient, Db } from "mongodb";
 import { Document, Model, model, Types, Schema, Query } from "mongoose";
+import dotenv from "dotenv";
 const mongoose = require("mongoose");
 
+console.log(dotenv.config());
+
+console.log("process env", process.env.DB_URL);
+
 mongoose
-  .connect(
-    "mongodb+srv://tintin:tigernsar2022@cluster0.5c2mm.mongodb.net/CookieDB",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(`${process.env.DB_URL}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    console.log("inside mongoose");
+    console.log("inside mongoose using .env");
   })
   .catch((err: any) => console.log("err", err));
 

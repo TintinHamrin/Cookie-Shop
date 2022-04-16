@@ -8,6 +8,10 @@ const router = require("./api");
 const app = express();
 dotenv.config();
 
+export interface ProcessEnv {
+  [key: string]: string | undefined
+}
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({ keys: ["sessionBaby"] }));
