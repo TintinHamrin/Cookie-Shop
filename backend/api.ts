@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { db, pastrySuggestionModel, productModel } from "./database";
+import { cartModel, db, pastrySuggestionModel, productModel } from "./database";
 var app = express.Router();
 
 app.get("/products", async (req: Request, res: Response) => {
@@ -9,43 +9,43 @@ app.get("/products", async (req: Request, res: Response) => {
 });
 
 app.get("/product-name/:id", async (req: Request, res: Response) => {
-  //TODO what does this do?
   const params = parseInt(req.params.id);
   const document = await productModel.findOne({ _id: params });
   res.json(document);
 });
 
-// app.post("/cookie-suggestions", (req: Request, res: Response) => {
-//   db.collection("CustomerIdeas").insertOne(req.body);
-//   res.json("Thanks for your suggestion!");
-// });
-
 app.post("/cookie-suggestions", async (req: Request, res: Response) => {
   await pastrySuggestionModel.create(req.body);
 });
 
-// app.post("/cart-items", async (req: Request, res: Response) => {
-//   if (req.session && req.session.sessionId) {
-//     const collection = db.collection("Carts"); //
-//     collection.insertOne({ ...req.body, cartId: req.session.sessionId });
-//     res.json({ cookie: req.session.sessionId });
-//   }
-// });
+app.post("/cart-item", async (req: Request, res: Response) => {
+  const { productId, price } = req.body;
+  if (req.session && req.session.sessionId) {
+    cartModel.create({
+      cartId: req.session.sessionId,
+      productId: productId,
+      price: price,
+    });
+    res.json({ cookie: req.session.sessionId });
+  }
+});
 
-// app.get("/cart-items", async (req: Request, res: Response) => {
-//   if (req.session && req.session.sessionId) {
-//     const collection = db.collection("Carts");
-//     const cursor = await collection.find({ cartId: req.session.sessionId });
-//     const fullCartData = await cursor.toArray();
-//     const fullCartQt = await cursor.count();
+app.get("/cart-items", async (req: Request, res: Response) => {
+  if (req.session && req.session.sessionId) {
+    const cartItems = await cartModel.find({ cartId: req.session.sessionId });
+    console.log(cartItems);
 
-//     let sum = 0;
-//     for (let i = 0; i < fullCartData.length; i++) {
-//       sum += fullCartData[i].price;
-//     }
-//     res.json({ fullCart: fullCartData, Qt: fullCartQt, sum: sum.toFixed(2) });
-//   }
-// });
+    let sum = 0;
+    for (let i = 0; i < cartItems.length; i++) {
+      console.log(cartItems[i].price);
+      sum += cartItems[i].price;
+    }
+    // res.json({ cartItems: cartItems, cartQt: cartItems.length, sum: sum.toFixed(2) });
+    res.json({ cartItems: cartItems, sum: sum });
+  } else {
+    res.json({ cartItems: [], sum: 0 });
+  }
+});
 
 app.get("/cart-id", (req: Request, res: Response) => {
   if (req.session && req.session.sessionId) {
@@ -53,6 +53,7 @@ app.get("/cart-id", (req: Request, res: Response) => {
   } else {
     req.session = { sessionId: Math.random().toString() };
     res.send({ "you are cookified!:": req.session });
+    console.log(req.session.sessionId);
   }
 });
 

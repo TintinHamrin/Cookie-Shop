@@ -17,7 +17,8 @@ export default function ProductCard(props: Product) {
   const dispatch = useDispatch();
 
   const addToCartHandler = async (props: Product) => {
-    ApiClient.fetch('/cart-items', {
+    console.log("x",props._id)
+    ApiClient.fetch('/cart-item', {
       method: 'POST',
       body: JSON.stringify({
         productId: props._id,

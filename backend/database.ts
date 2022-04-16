@@ -33,6 +33,7 @@ const cartSchema: Schema = mongoose.Schema({
 });
 
 const productSchema: Schema = mongoose.Schema({
+  _id: { type: Number, required: true },
   name: {
     type: String,
     required: true,

@@ -62,15 +62,15 @@ export default function Cart() {
 
   useEffect(() => {
     (async () => {
-      const data = await ApiClient.fetch("/cart-items-detailed");
-      const cartDetails = await data.json();
-      const cartItems = cartDetails.fullCart;
-      const cartQt = cartDetails.Qt;
-      const sum = cartDetails.sum;
+      const data = await ApiClient.fetch("/cart-items");
+      const data2 = await data.json();
+      const cartItems = data2.cartItems;
+      const cartQt = cartItems.length;
+      const sum = data2.sum;
       setFullCartDetails(cartItems);
       setFullCartQt(cartQt);
       setTotalPrice(sum);
-    })();
+    })()
   }, []);
 
   return (
