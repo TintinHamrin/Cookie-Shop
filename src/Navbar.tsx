@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartSliceActions, menuSliceActions, RootState } from "./store/store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DrawerElement from "./DrawerElement";
 import Cart from "./Cart";
-import { ApiClient } from "./ApiClient";
 //MUI
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -176,18 +175,6 @@ export default function Navbar() {
     dispatch(cartSliceActions.toggleOpen(true));
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await ApiClient.fetch("/cart-items");
-  //     const data2 = await data.json();
-  //     setCartItemsQt(data2.cartItems.length);
-  //     dispatch(cartSliceActions.initialCartQt(data2.cartItems.length));
-  //     //   .then((res) => res.json())
-  //     //   .then((data) => setCartItemsQt(data));
-  //     // dispatch(cartSliceActions.initialCartQt();
-  //     // console.log('fetching', itemsInCart);
-  //   })();
-  // }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

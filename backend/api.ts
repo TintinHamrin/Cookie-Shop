@@ -40,7 +40,6 @@ app.get("/cart-items", async (req: Request, res: Response) => {
       console.log(cartItems[i].price);
       sum += cartItems[i].price;
     }
-    // res.json({ cartItems: cartItems, cartQt: cartItems.length, sum: sum.toFixed(2) });
     res.json({ cartItems: cartItems, sum: sum });
   } else {
     res.json({ cartItems: [], sum: 0 });
