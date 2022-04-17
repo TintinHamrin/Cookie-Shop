@@ -13,7 +13,6 @@ export default function About() {
 
   const textInputHandler = (e: any) => {
     setText(e.target.value);
-    console.log(text);
   };
 
   const sendDataToDb = () => {

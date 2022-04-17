@@ -8,9 +8,13 @@ import About from "./About";
 import Checkout from "./Checkout";
 import { useDispatch } from "react-redux";
 import { cartSliceActions } from "./store/store";
-import { ApiClient } from "./ApiClient";
+import { ApiClient } from "./ApiClient"
 //MUI
 import { createTheme, ThemeProvider } from "@mui/material";
+
+// type X = {
+//   url: string, options: RequestInit
+// }
 
 export const theme = createTheme({
   palette: {
@@ -75,3 +79,4 @@ export default function App() {
 // add user page w user info
 // split up state store to seperate files
 // add nextJS
+//

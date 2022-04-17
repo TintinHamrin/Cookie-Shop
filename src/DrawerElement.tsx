@@ -13,7 +13,6 @@ export default function DrawerElement() {
   const dispatch = useDispatch();
 
   const toggleDrawer = () => {
-    console.log("closing");
     dispatch(menuSliceActions.toggleOpen(false));
   };
 

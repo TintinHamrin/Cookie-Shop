@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import path from "path";
 import { cartModel, db, pastrySuggestionModel, productModel } from "./database";
 var app = express.Router();
 
@@ -54,6 +55,10 @@ app.get("/cart-id", (req: Request, res: Response) => {
     res.send({ "you are cookified!:": req.session });
     console.log(req.session.sessionId);
   }
+});
+
+app.get("*", (req: any, res) => {
+  req.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 
 module.exports = app;

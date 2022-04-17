@@ -20,7 +20,6 @@ function Products() {
       const data = await ApiClient.fetch("/products");
       const fetchedProducts = await data.json();
       setProducts(fetchedProducts);
-      console.log(fetchedProducts);
     })();
   }, []);
 

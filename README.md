@@ -6,7 +6,7 @@ Create a store and design an API to add to cart and other functions necessary fo
 
 ### ***⏳ Time spent / Deadline***
 
-4 weeks.
+4 weeks initially. Now it is an ongoing project to improve the site and for learning through implementation. 
 
 ### ***💻 Tech used***
 
@@ -14,7 +14,9 @@ Create a store and design an API to add to cart and other functions necessary fo
 * React & Redux Toolkit
 * Node.js & Express
 * Material UI
-* MongoDB
+* MongoDB (Using the Compass GUI and storing data in the Atlas Cloud service)
+* Mongoose for ODM
+* NextJS
 * Firebase
 * SCSS
 
@@ -24,7 +26,7 @@ Got a deeper understanding of general programming patterns and developed my unde
 
 Learned how to set up and incorporate a backend server to frontend using Node.js/Express.
 
-Developed my understanding of noSQL databases (MongoDB and Firebase). Developed my knowledge of React and how to manage state globally over an app (using Redux Toolkit).
+Developed my understanding of noSQL databases and ODM using MongoDB and Mongoose. Developed my knowledge of React and how to manage state globally over an app (using Redux Toolkit). Developed my understanding of managing a fullstack app and using NextJS.
 
 I've used Material UI for design and accessability concerns and SCSS when needing to override styles. 
 
