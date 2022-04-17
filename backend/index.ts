@@ -11,8 +11,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({ keys: ["sessionBaby"] }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "../build")));
 app.use("/api/v1", router);
+app.use(express.static(path.join(__dirname, "../build")));
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
