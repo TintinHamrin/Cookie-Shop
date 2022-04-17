@@ -2,3 +2,12 @@
   display: flex;
   justify-content: center;
 }
+
+// $breakpoint-tablet: 820px;
+@media (max-width: 980px) {
+  .products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
