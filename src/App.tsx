@@ -79,4 +79,4 @@ export default function App() {
 // add user page w user info
 // split up state store to seperate files
 // add nextJS
-//
+// add footer
