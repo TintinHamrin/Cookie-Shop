@@ -57,8 +57,6 @@ app.get("/cart-id", (req: Request, res: Response) => {
   }
 });
 
-app.get("*", (req: any, res) => {
-  req.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
+
 
 module.exports = app;

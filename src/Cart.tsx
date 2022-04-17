@@ -113,7 +113,7 @@ export default function Cart() {
             </Typography>
             <Divider variant="fullWidth" />
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Total: ${totalPrice}
+              Total: ${totalPrice.toFixed(2)}
             </Typography>
             <Divider variant="fullWidth" />
             <Button variant="outlined" onClick={handleClose}>
