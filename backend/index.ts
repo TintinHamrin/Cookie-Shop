@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use("/api/v1", router);
 app.use(express.static(path.join(__dirname, "../build")));
 app.get("*", (req: any, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "/index.html"));
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
 });
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
