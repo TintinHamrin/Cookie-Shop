@@ -22,11 +22,11 @@ app.use(
     genid: function (req) {
       return Math.random().toString(); // use UUIDs for session IDs
     },
-    secret: "keyboard cat",
+    secret: //in env
     resave: false,
     store: MongoStore.create({
       mongoUrl:
-        "mongodb+srv://cookieweb:PwkUWTu6JCsmHc61@cluster0.5c2mm.mongodb.net/CookieDB",
+       //in env
       collectionName: "sessions",
     }),
     saveUninitialized: false,
