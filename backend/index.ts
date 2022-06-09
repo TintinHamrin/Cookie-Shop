@@ -2,14 +2,36 @@ import bodyParser from "body-parser";
 import cookieSession from "cookie-session";
 import path from "path";
 import express from "express";
-// 
+import session from "express-session";
+import MongoStore from "connect-mongo";
+//
 
 const router = require("./api");
 const app = express();
 // export const env = dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieSession({ keys: ["sessionBaby"] }));
+//app.use(cookieSession({ keys: ["sessionBaby"] }));
+
+// const sessionStore = new MongoStore({
+//   mongooseConnection: process.env.DB_URL,
+// });
+
+app.use(
+  session({
+    genid: function (req) {
+      return Math.random().toString(); // use UUIDs for session IDs
+    },
+    secret: "keyboard cat",
+    resave: false,
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://cookieweb:PwkUWTu6JCsmHc61@cluster0.5c2mm.mongodb.net/CookieDB",
+      collectionName: "sessions",
+    }),
+    saveUninitialized: false,
+  })
+);
 app.use(bodyParser.json());
 app.use("/api/v1", router);
 app.use(express.static(path.join(__dirname, "../build")));

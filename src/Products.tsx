@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "./Products.scss";
-import {ApiClient} from "./ApiClient";
+import { ApiClient } from "./ApiClient";
 
 export type Product = {
   img: string;
@@ -17,6 +17,7 @@ function Products() {
 
   useEffect(() => {
     (async () => {
+      console.log("fetching prods");
       const data = await ApiClient.fetch("/products");
       const fetchedProducts = await data.json();
       setProducts(fetchedProducts);
@@ -27,7 +28,7 @@ function Products() {
     <div className="products">
       {products.map((product) => (
         <ProductCard
-          _id={product._id}  
+          _id={product._id}
           name={product.name}
           price={product.price}
           img={imgPath + product.img + ".jpg"}

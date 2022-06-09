@@ -1,9 +1,9 @@
-import { MongoClient, Db } from "mongodb";
-import { Document, Model, model, Types, Schema, Query } from "mongoose";
+import { Schema } from "mongoose";
 import dotenv from "dotenv";
 const mongoose = require("mongoose");
 
 dotenv.config();
+//delete mongoose.connection.models["art"];
 
 mongoose
   .connect(`${process.env.DB_URL}`, {
@@ -30,6 +30,9 @@ const cartSchema: Schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  tasty: {
+    type: Boolean,
+  },
 });
 
 const productSchema: Schema = mongoose.Schema({
@@ -52,11 +55,23 @@ const productSchema: Schema = mongoose.Schema({
   },
 });
 
+const UserSchema: Schema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+});
+
 const pastrySuggestionSchema: Schema = mongoose.Schema({
   pastry: { type: String, required: true },
 });
 
 const cartModel = mongoose.model("Cart", cartSchema, "Carts");
+const userModel = mongoose.model("User", UserSchema, "Users");
 const productModel = mongoose.model("Product", productSchema, "Products");
 const pastrySuggestionModel = mongoose.model(
   "PastrySuggestion",
@@ -64,4 +79,4 @@ const pastrySuggestionModel = mongoose.model(
   "CustomerIdeas"
 );
 
-export { productModel, cartModel, pastrySuggestionModel, db };
+export { productModel, cartModel, pastrySuggestionModel, userModel, db };

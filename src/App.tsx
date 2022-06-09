@@ -8,9 +8,10 @@ import About from "./About";
 import Checkout from "./Checkout";
 import { useDispatch } from "react-redux";
 import { cartSliceActions } from "./store/store";
-import { ApiClient } from "./ApiClient"
+import { ApiClient } from "./ApiClient";
 //MUI
 import { createTheme, ThemeProvider } from "@mui/material";
+import Register from "./Register";
 
 // type X = {
 //   url: string, options: RequestInit
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="/cart" element={<Cart />}></Route>
             <Route path="/about" element={<About />}></Route>
             <Route path="/checkout" element={<Checkout />}></Route>
+            <Route path="/register" element={<Register />}></Route>
           </Routes>
         </BrowserRouter>
       </div>

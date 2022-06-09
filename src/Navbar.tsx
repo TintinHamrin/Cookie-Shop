@@ -22,6 +22,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -71,6 +72,7 @@ export default function Navbar() {
   const DrawerIsOpen = useSelector((state: RootState) => state.menu.isOpen);
   const itemsInCart = useSelector((state: RootState) => state.cart.itemsInCart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -92,6 +94,10 @@ export default function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogIn = () => {
+    navigate("/register");
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -110,7 +116,7 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogIn}>Log in</MenuItem>
     </Menu>
   );
 
@@ -174,7 +180,6 @@ export default function Navbar() {
   const openCartHandler = () => {
     dispatch(cartSliceActions.toggleOpen(true));
   };
-
 
   return (
     <Box sx={{ flexGrow: 1 }}>
