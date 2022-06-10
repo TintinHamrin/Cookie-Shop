@@ -21,8 +21,17 @@ export default function BasicTextFields() {
   const register = () => {
     ApiClient.fetch("/register", {
       method: "POST",
-      body: JSON.stringify({ name: username, password: password }),
+      body: JSON.stringify({ username: username, password: password }),
     }).then((res) => console.log(res.json()));
+  };
+
+  const login = async () => {
+    const x = await ApiClient.fetch("/login", {
+      method: "POST",
+      body: JSON.stringify({ username: username, password: password }),
+    });
+    const y = x.json();
+    console.log(y);
   };
 
   return (
@@ -52,7 +61,10 @@ export default function BasicTextFields() {
         }}
       />
       <Button sx={{ color: "secondary.main" }} onClick={register}>
-        Click to Log in
+        Click to register
+      </Button>
+      <Button sx={{ color: "secondary.main" }} onClick={login}>
+        Click to log in
       </Button>
     </Box>
   );

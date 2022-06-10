@@ -1,38 +1,35 @@
 import bodyParser from "body-parser";
-import cookieSession from "cookie-session";
 import path from "path";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-//
+import dotenv from "dotenv";
+import passport, { Passport } from "passport";
+import { PassportAuth } from "./passport";
 
-const router = require("./api");
+import { router } from "./api";
+import { connect } from "./database/db-config";
 const app = express();
-// export const env = dotenv.config();
+dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(cookieSession({ keys: ["sessionBaby"] }));
-
-// const sessionStore = new MongoStore({
-//   mongooseConnection: process.env.DB_URL,
-// });
 
 app.use(
   session({
     genid: function (req) {
       return Math.random().toString(); // use UUIDs for session IDs
     },
-    secret: //in env
+    secret: "keyboard cat",
     resave: false,
     store: MongoStore.create({
-      mongoUrl:
-       //in env
+      mongoUrl: process.env.DB_URL,
       collectionName: "sessions",
     }),
     saveUninitialized: false,
   })
 );
 app.use(bodyParser.json());
+PassportAuth.initMiddleware(app);
 app.use("/api/v1", router);
 app.use(express.static(path.join(__dirname, "../build")));
 app.get("*", (req: any, res) => {
@@ -40,5 +37,6 @@ app.get("*", (req: any, res) => {
 });
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
+  connect();
   console.log("listening on port 3001");
 });
