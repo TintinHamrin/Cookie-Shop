@@ -39,7 +39,8 @@
     "start": "cd backend && npm run start",
     "build": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts build && cd backend && npm install",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "git push heroku main"
   },
   "eslintConfig": {
     "extends": [
