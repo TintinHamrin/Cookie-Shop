@@ -3,7 +3,6 @@ import { User as UserModel } from "./database/db-models";
 import { validatePassword } from "./passwordUtils";
 import { Strategy as LocalStrategy } from "passport-local";
 import express from "express";
-import { connect } from "./database/db-config";
 
 interface IVerifyOptions {
   message: string;
@@ -28,7 +27,6 @@ export class PassportAuth {
     passport.serializeUser((user, done) => done(null, user._id));
 
     passport.deserializeUser(async (userId: string, done) => {
-      console.log("user id", userId);
       UserModel.findById(userId)
         .then((user: any) => done(null, user))
         .catch((err: any) => done(err));

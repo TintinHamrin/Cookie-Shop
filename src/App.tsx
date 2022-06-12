@@ -34,11 +34,11 @@ export const theme = createTheme({
 export default function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    ApiClient.fetch("/cart-id")
-      .then((res) => res.json())
-      .then((data) => console.log("id:", data));
-  }, []);
+  // useEffect(() => {
+  //   ApiClient.fetch("/cart-id")
+  //     .then((res) => res.json())
+  //     .then((data) => console.log("id:", data));
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -74,11 +74,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
-//TODO's
-// rename routers
-// add login page
-// add user page w user info
-// split up state store to seperate files
-// add nextJS
-// add footer

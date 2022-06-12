@@ -6,11 +6,29 @@ import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 import passport, { Passport } from "passport";
 import { PassportAuth } from "./passport";
-
 import { router } from "./api";
 import { connect } from "./database/db-config";
+import Redis from "ioredis";
+import RedisStore from "connect-redis";
+
+import * as Sentry from "@sentry/node";
+import * as Tracing from "@sentry/tracing";
 const app = express();
 dotenv.config();
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+    new Tracing.Integrations.Express({ app }),
+  ],
+  tracesSampleRate: 1.0,
+});
+
+const redisClient = new Redis(process.env.REDIS_URL!);
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,12 +37,9 @@ app.use(
     genid: function (req) {
       return Math.random().toString(); // use UUIDs for session IDs
     },
-    secret: "keyboard cat",
+    secret: `${process.env.SESSION_SECRET}`,
     resave: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.DB_URL,
-      collectionName: "sessions",
-    }),
+    store: new (RedisStore(session))({ client: redisClient }),
     saveUninitialized: false,
   })
 );
@@ -32,6 +47,13 @@ app.use(bodyParser.json());
 PassportAuth.initMiddleware(app);
 app.use("/api/v1", router);
 app.use(express.static(path.join(__dirname, "../build")));
+
+app.use(Sentry.Handlers.errorHandler());
+app.use(function onError(err: any, req: any, res: any, next: any) {
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
+});
+
 app.get("*", (req: any, res) => {
   res.sendFile(path.resolve(__dirname, "../build", "index.html"));
 });

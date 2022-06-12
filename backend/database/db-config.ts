@@ -7,16 +7,13 @@ dotenv.config();
 export let client: MongoClient;
 const papr = new Papr();
 
-export async function connect(): Promise<void> {
-  client = await MongoClient.connect(
-    "mongodb+srv://cookieweb:PwkUWTu6JCsmHc61@cluster0.5c2mm.mongodb.net/CookieDB"
-  );
+export async function connect() {
+  client = await MongoClient.connect(`${process.env.DB_URL}`);
   papr.initialize(client.db("CookieDB"));
-
-  //await papr.updateSchemas();
+  await papr.updateSchemas();
 }
 
-export async function disconnect(): Promise<void> {
+export async function disconnect() {
   await client.close();
 }
 

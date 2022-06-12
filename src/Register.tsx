@@ -30,8 +30,8 @@ export default function BasicTextFields() {
       method: "POST",
       body: JSON.stringify({ username: username, password: password }),
     });
-    const y = x.json();
-    console.log(y);
+    const y = await x.status;
+    console.log("res", y);
   };
 
   return (

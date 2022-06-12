@@ -1,6 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 import passport from "passport";
-import { Product, Cart, PastrySuggestion, User } from "./database/db-models";
+import {
+  Product,
+  CartProduct,
+  PastrySuggestion,
+  User,
+} from "./database/db-models";
 import { genPassword } from "./passwordUtils";
 export const router = express.Router();
 
@@ -41,15 +46,24 @@ router.post("/register", async (req: Request, res: Response) => {
 
 router.post(
   "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/failure",
-    successRedirect: "/success",
-  })
+  passport.authenticate("local"),
+  // passport.authenticate("local", {
+  // failureRedirect: "/failure",
+  // successRedirect: "/success",
+  // }),
+  (req: Request, res: Response) => {
+    console.log("in cb");
+    res.json("success");
+  }
 );
+
+// router.get("/debug-sentry", function mainHandler(req: Request, res: Response) {
+//   throw new Error("My first Sentry error!");
+// });
 
 router.post("/cart-item", setCartId, async (req: Request, res: Response) => {
   const { productId, price, tasty } = req.body;
-  Cart.insertOne({
+  CartProduct.insertOne({
     cartId: req.session.cartId!,
     productId: productId,
     price: price,
@@ -59,7 +73,8 @@ router.post("/cart-item", setCartId, async (req: Request, res: Response) => {
 });
 
 router.get("/cart-items", setCartId, async (req: Request, res: Response) => {
-  const cartItems = await Cart.find({ cartId: req.session.cartId });
+  console.log(req.session.cartId);
+  const cartItems = await CartProduct.find({ cartId: req.session.cartId });
 
   let sum = 0;
   for (let i = 0; i < cartItems.length; i++) {

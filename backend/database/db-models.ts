@@ -1,10 +1,10 @@
 import { schema, types } from "papr";
 import papr from "./db-config";
 
-export const Cart = papr.model(
-  "Carts",
+export const CartProduct = papr.model(
+  "CartsProducts",
   schema({
-    productId: types.string({ required: true }),
+    productId: types.number({ required: true }),
     price: types.number({ required: true }),
     cartId: types.string({ required: true }),
     tasty: types.boolean(),
