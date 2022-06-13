@@ -14,10 +14,10 @@ Create a store and design an API to add to cart and other functions necessary fo
 * React & Redux Toolkit
 * Node.js & Express
 * Material UI
-* MongoDB (Using the Compass GUI and storing data in the Atlas Cloud service)
-* Mongoose for ODM
-* NextJS
-* Firebase
+* MongoDB
+* Papr ORM  
+* Passport local
+* Redis
 * SCSS
 
 ### ***👨‍🎓 Learnings***
@@ -26,8 +26,10 @@ Got a deeper understanding of general programming patterns and developed my unde
 
 Learned how to set up and incorporate a backend server to frontend using Node.js/Express.
 
-Developed my understanding of noSQL databases and ODM using MongoDB and Mongoose. Developed my knowledge of React and how to manage state globally over an app (using Redux Toolkit). Developed my understanding of managing a fullstack app and using NextJS.
+Developed my understanding of noSQL databases and ORM using MongoDB and Papr. Developed my knowledge of React and how to manage state globally over an app (using Redux Toolkit). Developed my understanding of managing a fullstack app. Deepened my understanding of sessions and session middleware, learned about Redis for session storing and caching.  
+I've worked with npm Workspaces.
 
 I've used Material UI for design and accessability concerns and SCSS when needing to override styles. 
 
 The app is bootstrapped with Create react App. 
+Deployed on Heroku.
