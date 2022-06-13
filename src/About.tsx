@@ -72,7 +72,7 @@ export default function About() {
           }}
         />
         <Button sx={{ color: "secondary.main" }} onClick={sendDataToDb}>
-          Click to add
+          Click to add!
         </Button>
         {feedbackText}
       </Box>
