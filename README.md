@@ -32,3 +32,4 @@ I've worked with npm Workspaces.
 I've used Material UI for design and accessability concerns and SCSS when needing to override styles. 
 
 The app is bootstrapped with Create react App. 
+Deployed on Heroku.
