@@ -42,6 +42,9 @@
     "eject": "react-scripts eject",
     "deploy": "git push heroku main"
   },
+  "workspaces": [
+    "./packages/*"
+  ],
   "eslintConfig": {
     "extends": [
       "react-app",
