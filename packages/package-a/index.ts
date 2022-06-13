@@ -62,3 +62,7 @@ app.listen(port, () => {
   connect();
   console.log("listening on port 3001");
 });
+
+export function dummyFunction(num1: number, num2: number) {
+  return num1 + num2;
+}
