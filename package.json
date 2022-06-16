@@ -40,7 +40,7 @@
   "scripts": {
     "reactstart": "react-scripts start",
     "start": "cd packages/package-a && npm run start",
-    "build": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts build && cd backend && npm install",
+    "build": "node --optimize_for_size --max_old_space_size=460 node_modules/.bin/react-scripts build && cd packages/package-a && npm install",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "git push heroku main"
