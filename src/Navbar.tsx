@@ -203,7 +203,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Your Favourite Cookie Shop
+            My Favourite Cookie Shop
           </Typography>
           <Search>
             <SearchIconWrapper>

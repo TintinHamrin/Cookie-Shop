@@ -5,10 +5,12 @@ import "./Register.scss";
 import { Button } from "@mui/material";
 import { ApiClient } from "./ApiClient";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BasicTextFields() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const nameInputHandler = (e: any) => {
     setUsername(e.target.value);
@@ -26,12 +28,13 @@ export default function BasicTextFields() {
   };
 
   const login = async () => {
-    const x = await ApiClient.fetch("/login", {
+    const response = await ApiClient.fetch("/login", {
       method: "POST",
       body: JSON.stringify({ username: username, password: password }),
     });
-    const y = await x.status;
-    console.log("res", y);
+    const responseStatus = await response.status;
+    if (responseStatus === 200) navigate("/products");
+    //TODO update authslice
   };
 
   return (
