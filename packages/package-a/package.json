@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "main": "index.js",
+  "engines": {
+    "node": "17.x"
+  },
   "dependencies": {
     "@sentry/node": "^7.1.1",
     "@sentry/tracing": "^7.1.1",
