@@ -91,6 +91,15 @@ function setCartId(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
+router.get("/", setCartId, async (req: Request, res: Response) => {
+  req.flash("success", "entered site");
+  res.redirect(200, "/test");
+});
+
+router.get("/test", (req: Request, res: Response) => {
+  res.send(req.flash("success"));
+});
+
 router.get("*", (req: any, res) => {
   res.status(404).send();
 });
