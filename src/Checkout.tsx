@@ -68,7 +68,6 @@ export default function Checkout() {
           <TextField id="filled-basic" label="Full name" variant="filled" />
           <TextField id="filled-basic" label="Address" variant="filled" />
           <TextField id="filled-basic" label="Email" variant="filled" />
-          <h1>test</h1>
         </Box>
 
         <Divider variant="fullWidth" />
