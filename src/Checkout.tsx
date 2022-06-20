@@ -86,6 +86,7 @@ export default function Checkout() {
         >
           Pay with PayPal
         </Button>
+        <button>test</button>
       </Box>
     </Modal>
   );
