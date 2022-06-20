@@ -7,7 +7,7 @@ describe("checks if logo text renders", () => {
     preloadedRender(<Navbar />);
     // eslint-disable-next-line testing-library/prefer-screen-queries
     expect(
-      screen.getByText("Your and your mamas Favourite Cookie Shop")
+      screen.getByText("Your and Your Mamas Favourite Cookie Shop")
     ).toBeInTheDocument();
     // eslint-disable-next-line testing-library/no-node-access
   });
