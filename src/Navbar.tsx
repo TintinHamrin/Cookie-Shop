@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartSliceActions, menuSliceActions, RootState } from "./store/store";
-import { useState } from "react";
 import DrawerElement from "./DrawerElement";
 import Cart from "./Cart";
 //MUI
