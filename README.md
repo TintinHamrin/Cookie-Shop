@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/TintinHamrin/Cookie-Shop/workflows/Automated%20tests/badge.svg)](https://github.com/TintinHamrin/Cookie-Shop/actions)
+
 # TT's Cookie Shop
 
 ### ***🎯 Goals***
