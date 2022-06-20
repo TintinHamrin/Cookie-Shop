@@ -22,7 +22,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -67,7 +67,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [cartItemsQt, setCartItemsQt] = useState(0);
   const cartIsOpen = useSelector((state: RootState) => state.cart.isOpen);
   const DrawerIsOpen = useSelector((state: RootState) => state.menu.isOpen);
   const itemsInCart = useSelector((state: RootState) => state.cart.itemsInCart);

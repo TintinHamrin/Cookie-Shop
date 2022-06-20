@@ -47,7 +47,7 @@ export default function App() {
       const cartQt = cartItems.length;
       dispatch(cartSliceActions.initialCartQt(cartQt));
     })();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     (async () => {
@@ -55,7 +55,7 @@ export default function App() {
       const data2 = await data.json();
       dispatch(cartSliceActions.initialCartQt(data2.cartItems.length));
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={theme}>
