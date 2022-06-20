@@ -10,7 +10,6 @@ import { rootReducers, RootState } from "./store/store";
 import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { NoInfer } from "@reduxjs/toolkit/dist/tsHelpers";
 
 function testWrap(store: EnhancedStore): FC<{
   children: React.ReactNode;
