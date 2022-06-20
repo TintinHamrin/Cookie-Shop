@@ -10,7 +10,6 @@ import { router } from "./api";
 import { connect } from "./database/db-config";
 import Redis from "ioredis";
 import RedisStore from "connect-redis";
-import flash from "connect-flash";
 
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
@@ -44,7 +43,7 @@ app.use(
     saveUninitialized: false,
   })
 );
-app.use(flash());
+
 app.use(bodyParser.json());
 PassportAuth.initMiddleware(app);
 app.use("/api/v1", router);
