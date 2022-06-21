@@ -16,6 +16,7 @@
     //"module": "es6",
     "module": "commonjs",
     // "module": "es2022",
+    
 
     "moduleResolution": "node",
     "resolveJsonModule": true,

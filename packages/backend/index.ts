@@ -8,6 +8,9 @@ import { router } from "./api";
 import { connect } from "./database/db-config";
 import Redis from "ioredis";
 import RedisStore from "connect-redis";
+import { graphqlHTTP } from "express-graphql";
+import graphqlSchema from "./graphql/schema";
+import graphqlResolvers from "./graphql/resolvers";
 
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
@@ -41,6 +44,15 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+// app.use(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema: graphqlSchema,
+//     rootValue: graphqlResolvers,
+//     graphiql: true,
+//   })
+// );
 
 app.use(bodyParser.json());
 PassportAuth.initMiddleware(app);

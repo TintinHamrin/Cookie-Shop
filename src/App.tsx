@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import "./app.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import Products from "./Products";
-import Cart from "./Cart";
-import About from "./About";
-import Checkout from "./Checkout";
+//import Products from "./Products";
+//import Cart from "./Cart";
+//import About from "./About";
+//import Checkout from "./Checkout";
 import { useDispatch } from "react-redux";
 import { cartSliceActions } from "./store/store";
 import { ApiClient } from "./ApiClient";
 //MUI
 import { createTheme, ThemeProvider } from "@mui/material";
-import Register from "./Register";
+//import Register from "./Register";
 
 // type X = {
 //   url: string, options: RequestInit
@@ -32,13 +32,13 @@ export const theme = createTheme({
 });
 
 export default function App() {
-  const dispatch = useDispatch();
+  const Products = lazy(() => import("./Products"));
+  const Cart = lazy(() => import("./Cart"));
+  const About = lazy(() => import("./About"));
+  const Checkout = lazy(() => import("./Checkout"));
+  const Register = lazy(() => import("./Register"));
 
-  // useEffect(() => {
-  //   ApiClient.fetch("/cart-id")
-  //     .then((res) => res.json())
-  //     .then((data) => console.log("id:", data));
-  // }, []);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -62,13 +62,15 @@ export default function App() {
       <div className="App">
         <BrowserRouter>
           <Navbar />
-          <Routes>
-            <Route path="/products" element={<Products />}></Route>
-            <Route path="/cart" element={<Cart />}></Route>
-            <Route path="/about" element={<About />}></Route>
-            <Route path="/checkout" element={<Checkout />}></Route>
-            <Route path="/register" element={<Register />}></Route>
-          </Routes>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/products" element={<Products />}></Route>
+              <Route path="/cart" element={<Cart />}></Route>
+              <Route path="/about" element={<About />}></Route>
+              <Route path="/checkout" element={<Checkout />}></Route>
+              <Route path="/register" element={<Register />}></Route>
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </div>
     </ThemeProvider>
