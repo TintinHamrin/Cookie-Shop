@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 //import Products from "./Products";
 //import Cart from "./Cart";
 //import About from "./About";
-import Checkout from "./Checkout";
+//import Checkout from "./Checkout";
 import { useDispatch } from "react-redux";
 import { cartSliceActions } from "./store/store";
 import { ApiClient } from "./ApiClient";

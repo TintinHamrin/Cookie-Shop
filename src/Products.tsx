@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "./Products.scss";
 import { ApiClient } from "./ApiClient";
-import { useQuery, gql } from "@apollo/client";
+//import { useQuery, gql } from "@apollo/client";
 
 export type Product = {
   img: string;
@@ -16,11 +16,11 @@ function Products() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const imgPath = "/assets/";
 
-  const GET_PRODS = gql`
-    query GetQuestion {
-      que
-    }
-  `;
+  // const GET_PRODS = gql`
+  //   query GetQuestion {
+  //     que
+  //   }
+  // `;
 
   useEffect(() => {
     (async () => {
