@@ -1,0 +1,16 @@
+type Product {
+    
+}
+
+type Query {
+  products: String
+}
+
+# type Mutation {
+#   answerQuestion(q: ID!, lat: Float!, lng: Float!): Answer
+# }
+
+schema {
+  query: Query
+  mutation: Mutation
+}
