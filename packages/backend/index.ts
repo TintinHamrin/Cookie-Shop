@@ -9,9 +9,9 @@ import { connect } from "./database/db-config";
 import Redis from "ioredis";
 import RedisStore from "connect-redis";
 import { graphqlHTTP } from "express-graphql";
-import graphqlSchema from "./graphql/schema";
+//import graphqlSchema from "./graphql/schema";
 import graphqlResolvers from "./graphql/resolvers";
-
+import { schema } from "./graphql/pSchema";
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
 const app = express();
@@ -64,6 +64,15 @@ app.use(function onError(err: any, req: any, res: any, next: any) {
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: schema,
+    //rootValue: graphqlResolvers,
+    graphiql: true,
+  })
+);
 
 app.get("*", (req: any, res) => {
   res.sendFile(path.resolve(__dirname, "../../build", "index.html"));

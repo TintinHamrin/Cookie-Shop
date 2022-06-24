@@ -21,7 +21,6 @@ export const Product = papr.model(
     price: types.number(),
   })
 );
-
 export const User = papr.model(
   "Users",
   schema({

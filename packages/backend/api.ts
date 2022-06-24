@@ -16,11 +16,11 @@ declare module "express-session" {
   }
 }
 
-router.get("/products", async (req: Request, res: Response) => {
-  const products = await Product.find({});
-  console.log("prods", products);
-  res.json(products);
-});
+// router.get("/products", async (req: Request, res: Response) => {
+//   const products = await Product.find({});
+//   console.log("prods", products);
+//   res.json(products);
+// });
 
 router.get("/product-name/:id", async (req: Request, res: Response) => {
   const params = parseInt(req.params.id);
@@ -28,10 +28,10 @@ router.get("/product-name/:id", async (req: Request, res: Response) => {
   res.json(document);
 });
 
-router.post("/cookie-suggestions", async (req: Request, res: Response) => {
-  await PastrySuggestion.insertOne(req.body);
-  res.send("ok");
-});
+// router.post("/cookie-suggestions", async (req: Request, res: Response) => {
+//   await PastrySuggestion.insertOne(req.body);
+//   res.send("ok");
+// });
 
 router.post("/register", async (req: Request, res: Response) => {
   const { salt, hash } = genPassword(req.body.password);

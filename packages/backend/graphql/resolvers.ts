@@ -1,8 +1,17 @@
+import { Product } from "../database/db-models";
 
-export const resolvers = {
-  async question() {
-    const question = await Question.findOne({});
-    return question?.Q;
+const resolvers = {
+  // async products() {
+  //   const products = await Product.find({});
+  //   console.log("prods", products);
+  //   return products;
+  // },
+  products: async () => {
+    const products = await Product.find({});
+    return products;
+  },
+  hello: () => {
+    return 1;
   },
 };
 
