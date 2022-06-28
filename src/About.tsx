@@ -5,24 +5,30 @@ import { Button, CardContent, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import "./About.scss";
-import { ApiClient } from "./ApiClient";
+import { gql, useMutation } from "@apollo/client";
 
 export default function About() {
-  const [text, setText] = useState("");
+  const [userSuggestion, setUserSuggestion] = useState("");
   const [feedbackText, setFeedbackText] = useState("");
 
-  const textInputHandler = (e: any) => {
-    setText(e.target.value);
+  const COOKIE_SUGGESTION = gql`
+    mutation cookieSuggestion($cSuggestion: String) {
+      cookieSuggestion(suggestion: $cSuggestion)
+    }
+  `;
+
+  const [cookieSuggestionToDb, { loading, error }] = useMutation(
+    COOKIE_SUGGESTION,
+    { variables: { cSuggestion: userSuggestion } }
+  );
+
+  const sendDataToDb = async () => {
+    await cookieSuggestionToDb();
+    setFeedbackText("feedbackText");
   };
 
-  const sendDataToDb = () => {
-    ApiClient.fetch("/cookie-suggestions", {
-      method: "POST",
-      body: JSON.stringify({ pastry: text }),
-    })
-      .then((res) => res.json())
-      .then((data) => setFeedbackText(data));
-  };
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error...</div>;
 
   return (
     <div className="container">
@@ -67,9 +73,7 @@ export default function About() {
           id="outlined-basic textInput"
           label="Missing a cookie? Tell us!"
           variant="filled"
-          onChange={(e) => {
-            textInputHandler(e);
-          }}
+          onChange={(e) => setUserSuggestion(e.target.value)}
         />
         <Button sx={{ color: "secondary.main" }} onClick={sendDataToDb}>
           Click to add!

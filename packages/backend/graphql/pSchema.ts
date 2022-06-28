@@ -1,16 +1,47 @@
-import SchemaBuilder from '@pothos/core';
+import SchemaBuilder from "@pothos/core";
+import { PastrySuggestion, Product } from "../database/db-models";
+import SimpleObjectsPlugin from "@pothos/plugin-simple-objects";
+// import Product from "../lib/classes";
 
-const builder = new SchemaBuilder({});
+const builder = new SchemaBuilder({
+  plugins: [SimpleObjectsPlugin],
+});
+
+const productType = builder.simpleObject("Products", {
+  fields: (t) => ({
+    _id: t.float(),
+    name: t.string(),
+    img: t.string(),
+    description: t.string(),
+    price: t.float(),
+  }),
+});
 
 builder.queryType({
   fields: (t) => ({
-    hello: t.string({
-      args: {
-        name: t.arg.string(),
+    products: t.field({
+      type: [productType],
+
+      resolve: async () => {
+        const products = await Product.find({});
+        return products;
       },
-      resolve: (parent, { name }) => `hello, ${name || 'World'}`,
     }),
   }),
 });
 
-const schema = builder.toSchema({});
+builder.mutationType({
+  fields: (t) => ({
+    cookieSuggestion: t.string({
+      args: {
+        suggestion: t.arg.string(),
+      },
+      resolve: async (parent, { suggestion }) => {
+        await PastrySuggestion.insertOne({ pastry: suggestion! });
+        return "thank you";
+      },
+    }),
+  }),
+});
+
+export const schema = builder.toSchema({});

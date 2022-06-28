@@ -69,6 +69,7 @@ export default function Navbar() {
   const cartIsOpen = useSelector((state: RootState) => state.cart.isOpen);
   const DrawerIsOpen = useSelector((state: RootState) => state.menu.isOpen);
   const itemsInCart = useSelector((state: RootState) => state.cart.itemsInCart);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -96,6 +97,10 @@ export default function Navbar() {
     navigate("/register");
   };
 
+  const accountHandler = () => {
+    navigate("/accountpage");
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -114,6 +119,7 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleLogIn}>Log in</MenuItem>
+      {isLoggedIn && <MenuItem onClick={accountHandler}>Your account</MenuItem>}
     </Menu>
   );
 

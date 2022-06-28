@@ -17,11 +17,10 @@ export const Product = papr.model(
     _id: types.number({ required: true }),
     name: types.string({ required: true }),
     img: types.string({ required: true }),
-    description: types.string(),
-    price: types.number(),
+    description: types.string({ required: true }),
+    price: types.number({ required: true }),
   })
 );
-
 export const User = papr.model(
   "Users",
   schema({

@@ -6,11 +6,14 @@ import { Button } from "@mui/material";
 import { ApiClient } from "./ApiClient";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authSliceActions } from "./store/store";
 
 export default function BasicTextFields() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const nameInputHandler = (e: any) => {
     setUsername(e.target.value);
@@ -33,8 +36,12 @@ export default function BasicTextFields() {
       body: JSON.stringify({ username: username, password: password }),
     });
     const responseStatus = await response.status;
-    if (responseStatus === 200) navigate("/products");
-    //TODO update authslice
+    if (responseStatus === 200) {
+      navigate("/accountpage");
+      //TODO update authslice
+      //dispatch(authSliceActions.logIn(true));
+      dispatch(authSliceActions.logIn());
+    }
   };
 
   return (

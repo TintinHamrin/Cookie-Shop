@@ -1,9 +1,14 @@
 type Product {
-    
+  _id: Int!
+  name: String!
+  img: String!
+  description: String!
+  price: Int!
 }
 
 type Query {
-  products: String
+  products: [Product]
+  hello: String!
 }
 
 # type Mutation {
@@ -12,5 +17,4 @@ type Query {
 
 schema {
   query: Query
-  mutation: Mutation
 }
