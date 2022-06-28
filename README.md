@@ -20,6 +20,7 @@ Create a store and design an API to add to cart and other functions necessary fo
 * Papr ORM  
 * Passport local
 * Redis
+* GraphQL, Pothos
 * SCSS
 
 ### ***👨‍🎓 Learnings***
