@@ -17,7 +17,7 @@ export default function About() {
     }
   `;
 
-  const [cookieSuggestionToDb, { loading, error, data }] = useMutation(
+  const [cookieSuggestionToDb, { loading, error }] = useMutation(
     COOKIE_SUGGESTION,
     { variables: { cSuggestion: userSuggestion } }
   );

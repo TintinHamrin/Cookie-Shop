@@ -22,7 +22,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
-import { ApiClient } from "./ApiClient";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -100,18 +99,7 @@ export default function Navbar() {
 
   const accountHandler = () => {
     navigate("/accountpage");
-    // checkAuth();
   };
-
-  // const checkAuth = async () => {
-  //   const res = await ApiClient.fetch("/check-auth");
-  //   const r = await res.json();
-  //   if (r === true) {
-  //     console.log("authed");
-  //   } else {
-  //     console.log("not authed");
-  //   }
-  // };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
