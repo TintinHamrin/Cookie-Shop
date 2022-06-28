@@ -13,25 +13,15 @@ declare module "express-session" {
   interface SessionData {
     cartId: string;
     tasty: boolean;
+    isLoggedIn: boolean;
   }
 }
-
-// router.get("/products", async (req: Request, res: Response) => {
-//   const products = await Product.find({});
-//   console.log("prods", products);
-//   res.json(products);
-// });
 
 router.get("/product-name/:id", async (req: Request, res: Response) => {
   const params = parseInt(req.params.id);
   const document = await Product.findOne({ _id: params });
   res.json(document);
 });
-
-// router.post("/cookie-suggestions", async (req: Request, res: Response) => {
-//   await PastrySuggestion.insertOne(req.body);
-//   res.send("ok");
-// });
 
 router.post("/register", async (req: Request, res: Response) => {
   const { salt, hash } = genPassword(req.body.password);
@@ -52,13 +42,18 @@ router.post(
   // successRedirect: "/success",
   // }),
   (req: Request, res: Response) => {
+    req.session.isLoggedIn = true;
     console.log("in cb");
     res.json("success");
   }
 );
 
-// router.get("/debug-sentry", function mainHandler(req: Request, res: Response) {
-//   throw new Error("My first Sentry error!");
+// router.get("/check-auth", (req: Request, res: Response) => {
+//   if (req.session.isLoggedIn) {
+//     res.send(true);
+//   } else {
+//     res.send(false);
+//   }
 // });
 
 router.post("/cart-item", setCartId, async (req: Request, res: Response) => {
@@ -84,17 +79,24 @@ router.get("/cart-items", setCartId, async (req: Request, res: Response) => {
   res.json({ cartItems: cartItems, sum: sum });
 });
 
+router.get("/", isAuthenticated, (req: any, res) => {
+  res.status(200).send("authed");
+});
+
+function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+  if (req.session.isLoggedIn) {
+    next();
+  } else {
+    res.status(302).send();
+  }
+}
+
 function setCartId(req: Request, res: Response, next: NextFunction) {
   if (!req.session.cartId) {
     req.session.cartId = Math.random().toString();
   }
   next();
 }
-
-// router.get("/", setCartId, async (req: Request, res: Response) => {
-//   req.flash("success", "entered site");
-//   res.redirect(200, "/test");
-// });
 
 router.get("*", (req: any, res) => {
   res.status(404).send();

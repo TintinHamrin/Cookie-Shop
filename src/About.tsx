@@ -5,8 +5,7 @@ import { Button, CardContent, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import "./About.scss";
-import { ApiClient } from "./ApiClient";
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 
 export default function About() {
   const [userSuggestion, setUserSuggestion] = useState("");

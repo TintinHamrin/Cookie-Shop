@@ -3,7 +3,7 @@ import "./app.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useDispatch } from "react-redux";
-import { cartSliceActions } from "./store/store";
+import { authSliceActions, cartSliceActions } from "./store/store";
 import { ApiClient } from "./ApiClient";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
@@ -34,15 +34,15 @@ export default function App() {
   const About = lazy(() => import("./About"));
   const Checkout = lazy(() => import("./Checkout"));
   const Register = lazy(() => import("./Register"));
+  const AccountPage = lazy(() => import("./AccountPage"));
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      const data = await ApiClient.fetch("/cart-items");
-      const cartItems = await data.json();
-      const cartQt = cartItems.length;
-      dispatch(cartSliceActions.initialCartQt(cartQt));
+      const isAuthenticated = await ApiClient.fetch("/");
+      const response = await isAuthenticated;
+      if (response.status === 200) dispatch(authSliceActions.logIn());
     })();
   }, [dispatch]);
 
@@ -67,6 +67,7 @@ export default function App() {
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/checkout" element={<Checkout />}></Route>
                 <Route path="/register" element={<Register />}></Route>
+                <Route path="/accountpage" element={<AccountPage />}></Route>
               </Routes>
             </Suspense>
           </ApolloProvider>

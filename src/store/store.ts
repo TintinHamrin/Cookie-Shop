@@ -49,8 +49,9 @@ const authSlice = createSlice({
     isLoggedIn: false,
   },
   reducers: {
-    logIn: (state, action) => {
-      state.isLoggedIn = true;
+    logIn: (state) => {
+      //state.isLoggedIn = action.payload;
+      state.isLoggedIn = !state.isLoggedIn;
     },
   },
 });

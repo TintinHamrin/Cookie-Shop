@@ -33,15 +33,16 @@ function Products() {
 
   return (
     <div className="products">
-      {products && (
-        <ProductCard
-          _id={products!._id}
-          name={products!.name}
-          price={products!.price}
-          img={imgPath + products!.img + ".jpg"}
-          description={products!.description}
-        />
-      )}
+      {products &&
+        products.map((product: any) => (
+          <ProductCard
+            _id={product!._id}
+            name={product!.name}
+            price={product!.price}
+            img={imgPath + product!.img + ".jpg"}
+            description={product!.description}
+          />
+        ))}
     </div>
   );
 }
