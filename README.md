@@ -18,9 +18,10 @@ Create a store and design an API to add to cart and other functions necessary fo
 * Material UI
 * MongoDB
 * Papr ORM  
-* Passport local
+* Passport
 * Redis
 * GraphQL, Pothos
+* Sentry
 * SCSS
 
 ### ***👨‍🎓 Learnings***
